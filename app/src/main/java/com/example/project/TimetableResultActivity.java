@@ -3,29 +3,21 @@ package com.example.project;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class TimetableActivity extends AppCompatActivity {
+public class TimetableResultActivity extends AppCompatActivity {
 
-    EditText etSubjects, etDate, etHours, etPriority;
-    Button btnGenerate;
     TextView btnBack, navDashboard, navCalendar, navTasks, navProgress, navProfile;
+    Button btnRegenerate, btnSave;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_timetable);
+        setContentView(R.layout.activity_timetable_result);
 
-        // 🔗 Link UI
-        etSubjects = findViewById(R.id.etSubjects);
-        etDate = findViewById(R.id.etDate);
-        etHours = findViewById(R.id.etHours);
-        etPriority = findViewById(R.id.etPriority);
-
-        btnGenerate = findViewById(R.id.btnGenerate);
+        // 🔗 Link Views
         btnBack = findViewById(R.id.btnBack);
 
         navDashboard = findViewById(R.id.navDashboard);
@@ -34,28 +26,23 @@ public class TimetableActivity extends AppCompatActivity {
         navProgress = findViewById(R.id.navProgress);
         navProfile = findViewById(R.id.navProfile);
 
-        // 🔙 Back button
-        btnBack.setOnClickListener(v -> {
-            finish();
+        btnRegenerate = findViewById(R.id.btnRegenerate);
+        btnSave = findViewById(R.id.btnSave);
+
+        // 🔙 Back to previous screen
+        btnBack.setOnClickListener(v -> finish());
+
+        // 🔁 Regenerate → go back to input page
+        btnRegenerate.setOnClickListener(v -> {
+            finish(); // returns to TimetableActivity
         });
 
-        // 🚀 Generate Button
-        btnGenerate.setOnClickListener(v -> {
-
-            String subjects = etSubjects.getText().toString().trim();
-            String date = etDate.getText().toString().trim();
-            String hours = etHours.getText().toString().trim();
-            String priority = etPriority.getText().toString().trim();
-
-            if (subjects.isEmpty() || date.isEmpty() || hours.isEmpty() || priority.isEmpty()) {
-                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
-            } else {
-                // 🔥 OPEN RESULT PAGE
-                startActivity(new Intent(this, TimetableResultActivity.class));
-            }
+        // 💾 Save Schedule
+        btnSave.setOnClickListener(v -> {
+            Toast.makeText(this, "Schedule Saved!", Toast.LENGTH_SHORT).show();
         });
+
         // 🔽 Bottom Navigation
-
         navDashboard.setOnClickListener(v ->
                 startActivity(new Intent(this, DashboardActivity.class)));
 
