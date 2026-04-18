@@ -23,11 +23,11 @@ public class DashboardActivity extends AppCompatActivity {
         });
 
         // Bottom navigation
-        navDashboard = findViewById(R.id.navDashboard);
-        navCalendar = findViewById(R.id.navCalendar);
-        navTasks = findViewById(R.id.navTasks);
-        navProgress = findViewById(R.id.navProgress);
-        navProfile = findViewById(R.id.navProfile);
+        LinearLayout navDashboard = findViewById(R.id.navDashboard);
+        LinearLayout navCalendar = findViewById(R.id.navCalendar);
+        LinearLayout navTasks = findViewById(R.id.navTasks);
+        LinearLayout navProgress = findViewById(R.id.navProgress);
+        LinearLayout navProfile = findViewById(R.id.navProfile);
 
         // Already on Dashboard → do nothing
         navDashboard.setOnClickListener(v -> { });

@@ -6,6 +6,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import android.widget.LinearLayout;
 
 public class TimetableResultActivity extends AppCompatActivity {
 
@@ -20,11 +21,11 @@ public class TimetableResultActivity extends AppCompatActivity {
         // 🔗 Link Views
         btnBack = findViewById(R.id.btnBack);
 
-        navDashboard = findViewById(R.id.navDashboard);
-        navCalendar = findViewById(R.id.navCalendar);
-        navTasks = findViewById(R.id.navTasks);
-        navProgress = findViewById(R.id.navProgress);
-        navProfile = findViewById(R.id.navProfile);
+        LinearLayout navDashboard = findViewById(R.id.navDashboard);
+        LinearLayout navCalendar = findViewById(R.id.navCalendar);
+        LinearLayout navTasks = findViewById(R.id.navTasks);
+        LinearLayout navProgress = findViewById(R.id.navProgress);
+        LinearLayout navProfile = findViewById(R.id.navProfile);
 
         btnRegenerate = findViewById(R.id.btnRegenerate);
         btnSave = findViewById(R.id.btnSave);

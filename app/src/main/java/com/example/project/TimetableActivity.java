@@ -7,6 +7,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import android.widget.LinearLayout;
 
 public class TimetableActivity extends AppCompatActivity {
 
@@ -28,11 +29,11 @@ public class TimetableActivity extends AppCompatActivity {
         btnGenerate = findViewById(R.id.btnGenerate);
         btnBack = findViewById(R.id.btnBack);
 
-        navDashboard = findViewById(R.id.navDashboard);
-        navCalendar = findViewById(R.id.navCalendar);
-        navTasks = findViewById(R.id.navTasks);
-        navProgress = findViewById(R.id.navProgress);
-        navProfile = findViewById(R.id.navProfile);
+        LinearLayout navDashboard = findViewById(R.id.navDashboard);
+        LinearLayout navCalendar = findViewById(R.id.navCalendar);
+        LinearLayout navTasks = findViewById(R.id.navTasks);
+        LinearLayout navProgress = findViewById(R.id.navProgress);
+        LinearLayout navProfile = findViewById(R.id.navProfile);
 
         // 🔙 Back button
         btnBack.setOnClickListener(v -> {
