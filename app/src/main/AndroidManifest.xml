@@ -9,9 +9,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Project">
         <activity
-            android:name=".TimetableResultActivity"
+            android:name=".AddTaskActivity"
             android:exported="false" />
-        <!-- Splash Screen (Main Launcher) -->
+        <activity
+            android:name=".TimetableResultActivity"
+            android:exported="false" /> <!-- Splash Screen (Main Launcher) -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
