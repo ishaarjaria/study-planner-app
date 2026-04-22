@@ -31,10 +31,10 @@
         app:layout_constraintTop_toBottomOf="@id/title"
         app:layout_constraintStart_toStartOf="@id/title"/>
 
-    <!-- TIMER RING -->
+    <!-- TIMER -->
     <FrameLayout
         android:id="@+id/timerContainer"
-        android:layout_width="240dp"
+        android:layout_width="300dp"
         android:layout_height="240dp"
         android:layout_marginTop="40dp"
         app:layout_constraintTop_toBottomOf="@id/subtitle"
@@ -42,8 +42,8 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="300dp"
+            android:layout_height="250dp"
             android:background="@drawable/bg_timer_ring"/>
 
         <TextView
@@ -63,7 +63,7 @@
             android:textSize="12sp"
             android:textColor="#888"
             android:layout_gravity="center_horizontal|bottom"
-            android:layout_marginBottom="60dp"/>
+            android:layout_marginBottom="55dp"/>
     </FrameLayout>
 
     <!-- BUTTONS -->
@@ -72,7 +72,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
         app:layout_constraintTop_toBottomOf="@id/timerContainer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -83,13 +84,13 @@
             android:layout_height="70dp"
             android:background="@drawable/card_purple"
             android:src="@android:drawable/ic_media_play"
-            app:tint="#FFFFFF"/>
+            app:tint="#FFFFFF" />
 
         <ImageButton
             android:id="@+id/btnReset"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="24dp"
             android:background="@drawable/card_blue"
             android:src="@android:drawable/ic_popup_sync"/>
     </LinearLayout>
@@ -101,6 +102,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="20dp"
+        android:gravity="center"
         app:layout_constraintTop_toBottomOf="@id/controls"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -110,7 +112,7 @@
             android:layout_height="wrap_content"
             android:text="25 min"
             android:background="@drawable/card_green"
-            android:padding="8dp"
+            android:padding="10dp"
             android:layout_marginEnd="10dp"/>
 
         <TextView
@@ -118,7 +120,7 @@
             android:layout_height="wrap_content"
             android:text="15 min"
             android:background="@drawable/card_pink"
-            android:padding="8dp"
+            android:padding="10dp"
             android:layout_marginEnd="10dp"/>
 
         <TextView
@@ -126,7 +128,7 @@
             android:layout_height="wrap_content"
             android:text="5 min break"
             android:background="@drawable/card_red"
-            android:padding="8dp"/>
+            android:padding="10dp"/>
     </LinearLayout>
 
     <!-- STATS -->
@@ -135,34 +137,34 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="24dp"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
         app:layout_constraintTop_toBottomOf="@id/modes"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Sessions -->
+        <!-- SESSIONS -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="100dp"
             android:layout_weight="1"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/card_purple"
             android:orientation="vertical"
             android:gravity="center"
-            android:background="@drawable/card_purple"
-            android:layout_marginEnd="10dp"
-            android:elevation="3dp">
+            android:elevation="4dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="⏱"
-                android:textSize="18sp"/>
+                android:textSize="16sp"/>
 
             <TextView
-                android:id="@+id/tvSessions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/tvSessions"
                 android:text="0"
                 android:textSize="20sp"
                 android:textStyle="bold"/>
@@ -174,26 +176,26 @@
                 android:textSize="12sp"/>
         </LinearLayout>
 
-        <!-- Minutes -->
+        <!-- MINUTES -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="100dp"
             android:layout_weight="1"
+            android:background="@drawable/card_green"
             android:orientation="vertical"
             android:gravity="center"
-            android:background="@drawable/card_green"
-            android:elevation="3dp">
+            android:elevation="4dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="⏲"
-                android:textSize="18sp"/>
+                android:textSize="16sp"/>
 
             <TextView
-                android:id="@+id/tvMinutes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/tvMinutes"
                 android:text="0"
                 android:textSize="20sp"
                 android:textStyle="bold"/>
@@ -217,7 +219,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- BACK -->
         <TextView
             android:id="@+id/btnBack"
             android:layout_width="match_parent"
@@ -351,5 +352,4 @@
         </LinearLayout>
 
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
