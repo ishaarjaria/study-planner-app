@@ -3,12 +3,15 @@ package com.example.project;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -17,6 +20,7 @@ public class ProfileActivity extends AppCompatActivity {
     Switch darkModeSwitch;
 
     SharedPreferences prefs;
+    private static final String TAG = "ProfileActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +70,7 @@ public class ProfileActivity extends AppCompatActivity {
             } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             }
+            Log.d(TAG, "Dark mode toggled: " + isChecked);
         });
 
         // 🔹 NAVIGATION
@@ -103,6 +108,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         // 🔥 LOGOUT
         btnLogout.setOnClickListener(v -> {
+            FirebaseAuth.getInstance().signOut();
             Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);

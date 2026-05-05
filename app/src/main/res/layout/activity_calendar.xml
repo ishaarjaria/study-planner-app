@@ -98,16 +98,15 @@
                 android:layout_marginTop="10dp"
                 android:text="Add Event"
                 android:textAllCaps="false"
-                android:textColor="#FFFFFF"
                 android:background="@drawable/bg_button"
-                android:backgroundTint="@null"/>
+                android:backgroundTint="@null"
+                android:textColor="#FFFFFF" />
 
             <LinearLayout
                 android:id="@+id/eventListContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="8dp"/>
+                android:orientation="vertical" />
 
             <!-- EVENT 1 -->
             <LinearLayout

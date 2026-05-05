@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".PlannerApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="Smart Study Planner"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Project">
+        <activity
+            android:name=".AddEventActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddExamActivity"
+            android:exported="false" />
         <activity
             android:name=".SupportActivity"
             android:exported="false" />

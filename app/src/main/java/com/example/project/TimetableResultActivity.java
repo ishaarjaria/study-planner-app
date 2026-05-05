@@ -10,28 +10,44 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.widget.LinearLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
+<<<<<<< HEAD
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
 
+=======
+import com.google.firebase.firestore.FirebaseFirestore;
+
+>>>>>>> 58c259c (new changes)
 public class TimetableResultActivity extends AppCompatActivity {
     private static final String TAG = "TimetableResultActivity";
 
     TextView btnBack, navDashboard, navCalendar, navTasks, navProgress, navProfile;
     Button btnRegenerate, btnSave;
+<<<<<<< HEAD
     private TextView tvGeneratedSchedule;
     private FirebaseFirestore firestore;
     private FirebaseUser currentUser;
     private String generatedPlan;
+=======
+    TextView tvAiPlan;
+    private FirebaseFirestore firestore;
+    private String aiPlan;
+    private static final String TAG = "TimetableResultActivity";
+>>>>>>> 58c259c (new changes)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timetable_result);
         firestore = FirebaseFirestore.getInstance();
+<<<<<<< HEAD
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
+=======
+        aiPlan = getIntent().getStringExtra("aiPlan");
+>>>>>>> 58c259c (new changes)
 
         // 🔗 Link Views
         btnBack = findViewById(R.id.btnBack);
@@ -44,12 +60,18 @@ public class TimetableResultActivity extends AppCompatActivity {
 
         btnRegenerate = findViewById(R.id.btnRegenerate);
         btnSave = findViewById(R.id.btnSave);
+<<<<<<< HEAD
         tvGeneratedSchedule = findViewById(R.id.tvGeneratedSchedule);
         generatedPlan = getIntent().getStringExtra("generatedPlan");
         if (generatedPlan != null && !generatedPlan.trim().isEmpty()) {
             tvGeneratedSchedule.setText(generatedPlan);
         } else {
             loadSavedTimetable();
+=======
+        tvAiPlan = findViewById(R.id.tvAiPlan);
+        if (aiPlan != null) {
+            tvAiPlan.setText(aiPlan);
+>>>>>>> 58c259c (new changes)
         }
 
         // 🔙 Back to previous screen
@@ -62,8 +84,37 @@ public class TimetableResultActivity extends AppCompatActivity {
 
         // 💾 Save Schedule
         btnSave.setOnClickListener(v -> {
+<<<<<<< HEAD
             saveFinalTimetable();
+=======
+            if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+                Toast.makeText(this, "Please login again", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            firestore.collection("timetables").document(uid)
+                    .update("saved", true, "savedAt", System.currentTimeMillis())
+                    .addOnSuccessListener(unused -> Toast.makeText(this, "Schedule Saved!", Toast.LENGTH_SHORT).show())
+                    .addOnFailureListener(e -> {
+                        Log.e(TAG, "Save schedule failed", e);
+                        Toast.makeText(this, "Could not save schedule", Toast.LENGTH_SHORT).show();
+                    });
+>>>>>>> 58c259c (new changes)
         });
+
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            firestore.collection("timetables").document(uid).get().addOnSuccessListener(doc -> {
+                String latestPlan = doc.getString("aiPlan");
+                if (latestPlan != null && !latestPlan.trim().isEmpty()) {
+                    aiPlan = latestPlan;
+                    tvAiPlan.setText(aiPlan);
+                }
+                if (aiPlan != null) {
+                    Toast.makeText(this, "Timetable loaded", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnFailureListener(e -> Log.e(TAG, "Failed to fetch timetable", e));
+        }
 
         // 🔽 Bottom Navigation
         navDashboard.setOnClickListener(v ->

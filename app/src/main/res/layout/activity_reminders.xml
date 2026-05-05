@@ -327,6 +327,7 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <TextView
+            android:id="@+id/btnBack"
             android:text="← Back to Screen Navigator"
             android:gravity="center"
             android:background="#D6D4F5"

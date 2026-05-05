@@ -10,16 +10,22 @@ import android.widget.LinearLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+<<<<<<< HEAD
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 import java.util.Calendar;
+=======
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
+>>>>>>> 58c259c (new changes)
 
 public class DashboardActivity extends AppCompatActivity {
     private static final String TAG = "DashboardActivity";
 
     TextView btnBack, navDashboard, navCalendar, navTasks, navProgress, navProfile;
+<<<<<<< HEAD
     private TextView tvGreeting;
     private TextView tvDate;
     private TextView tvProgressPercent;
@@ -29,6 +35,18 @@ public class DashboardActivity extends AppCompatActivity {
     private ProgressBar progressTasks;
     private FirebaseUser currentUser;
     private FirebaseFirestore firestore;
+=======
+    private TextView tvHello;
+    private TextView tvProgressPercent;
+    private TextView tvProgressMeta;
+    private TextView tvNextExamTitle;
+    private TextView tvNextExamDays;
+    private ProgressBar pbTodayProgress;
+    private FirebaseFirestore firestore;
+    private FirebaseUser currentUser;
+    private ListenerRegistration taskProgressListener;
+    private static final String TAG = "DashboardActivity";
+>>>>>>> 58c259c (new changes)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +54,7 @@ public class DashboardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dashboard);
         firestore = FirebaseFirestore.getInstance();
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
+<<<<<<< HEAD
 
         tvGreeting = findViewById(R.id.tvGreeting);
         tvDate = findViewById(R.id.tvDate);
@@ -45,6 +64,8 @@ public class DashboardActivity extends AppCompatActivity {
         tvNextExamDays = findViewById(R.id.tvNextExamDays);
         progressTasks = findViewById(R.id.progressTasks);
         applyDateAndGreeting();
+=======
+>>>>>>> 58c259c (new changes)
 
         // Back button
         btnBack = findViewById(R.id.btnBack);
@@ -87,6 +108,128 @@ public class DashboardActivity extends AppCompatActivity {
 
         btnTimetable.setOnClickListener(v ->
                 startActivity(new Intent(this, TimetableActivity.class)));
+
+        tvHello = findViewById(R.id.tvHello);
+        tvProgressPercent = findViewById(R.id.tvProgressPercent);
+        tvProgressMeta = findViewById(R.id.tvProgressMeta);
+        tvNextExamTitle = findViewById(R.id.tvNextExamTitle);
+        tvNextExamDays = findViewById(R.id.tvNextExamDays);
+        pbTodayProgress = findViewById(R.id.pbTodayProgress);
+
+        if (currentUser == null) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+            return;
+        }
+        loadUser();
+        observeTaskProgress();
+        loadNextExam();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (currentUser != null) {
+            if (taskProgressListener == null) {
+                observeTaskProgress();
+            }
+            loadNextExam();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (taskProgressListener != null) {
+            taskProgressListener.remove();
+            taskProgressListener = null;
+        }
+    }
+
+    private void loadUser() {
+        firestore.collection("users").document(currentUser.getUid()).get().addOnSuccessListener(snapshot -> {
+            String name = snapshot.getString("name");
+            if (name == null || name.trim().isEmpty()) {
+                name = "Student";
+            }
+            tvHello.setText("Hello, " + name + "!");
+        }).addOnFailureListener(e -> Log.e(TAG, "Failed to load user profile", e));
+    }
+
+    private void loadTaskProgress() {
+        firestore.collection("tasks")
+                .whereEqualTo("uid", currentUser.getUid())
+                .get()
+                .addOnSuccessListener(query -> {
+                    int total = query.size();
+                    int completed = 0;
+                    for (int i = 0; i < query.size(); i++) {
+                        Boolean done = query.getDocuments().get(i).getBoolean("completed");
+                        if (Boolean.TRUE.equals(done)) {
+                            completed++;
+                        }
+                    }
+                    int percent = total == 0 ? 0 : (completed * 100 / total);
+                    pbTodayProgress.setProgress(percent);
+                    tvProgressPercent.setText(percent + "%");
+                    tvProgressMeta.setText("↗ " + completed + " of " + total + " tasks completed");
+                })
+                .addOnFailureListener(e -> Log.e(TAG, "Failed to load tasks", e));
+    }
+
+    private void observeTaskProgress() {
+        taskProgressListener = firestore.collection("tasks")
+                .whereEqualTo("uid", currentUser.getUid())
+                .addSnapshotListener((query, e) -> {
+                    if (e != null) {
+                        Log.e(TAG, "Task progress realtime listener failed", e);
+                        return;
+                    }
+                    if (query == null) {
+                        Log.e(TAG, "Task progress query is null");
+                        return;
+                    }
+                    int total = query.size();
+                    int completed = 0;
+                    for (int i = 0; i < query.size(); i++) {
+                        Boolean done = query.getDocuments().get(i).getBoolean("completed");
+                        if (Boolean.TRUE.equals(done)) {
+                            completed++;
+                        }
+                    }
+                    int percent = total == 0 ? 0 : (completed * 100 / total);
+                    pbTodayProgress.setProgress(percent);
+                    tvProgressPercent.setText(percent + "%");
+                    tvProgressMeta.setText("↗ " + completed + " of " + total + " tasks completed");
+                    Log.d(TAG, "Dashboard progress updated completed=" + completed + ", total=" + total);
+                });
+    }
+
+    private void loadNextExam() {
+        firestore.collection("exams")
+                .whereEqualTo("uid", currentUser.getUid())
+                .orderBy("dateMillis")
+                .limit(1)
+                .get()
+                .addOnSuccessListener(query -> {
+                    if (query.isEmpty()) {
+                        tvNextExamTitle.setText("No upcoming exam");
+                        tvNextExamDays.setText("Add an exam to start tracking");
+                        return;
+                    }
+                    String title = query.getDocuments().get(0).getString("title");
+                    Long dateMillis = query.getDocuments().get(0).getLong("dateMillis");
+                    tvNextExamTitle.setText(title == null ? "Upcoming Exam" : title);
+                    if (dateMillis == null) {
+                        tvNextExamDays.setText("Date not set");
+                        return;
+                    }
+                    long today = System.currentTimeMillis();
+                    long diff = Math.max(0L, dateMillis - today);
+                    long days = diff / (1000L * 60L * 60L * 24L);
+                    tvNextExamDays.setText(days + " days remaining");
+                })
+                .addOnFailureListener(e -> Log.e(TAG, "Failed to load exams", e));
     }
 
     @Override

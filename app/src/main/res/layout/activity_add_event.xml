@@ -1,49 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F7"
-    android:padding="20dp">
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:background="#F5F5F7">
 
-    <LinearLayout
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Event"
+        android:textStyle="bold"
+        android:textSize="22sp" />
+
+    <EditText
+        android:id="@+id/etEventTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginTop="14dp"
+        android:background="@drawable/bg_input"
+        android:hint="Event title"
+        android:padding="12dp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Add Event"
-            android:textSize="22sp"
-            android:textStyle="bold" />
+    <EditText
+        android:id="@+id/etEventDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_input"
+        android:hint="Select date"
+        android:focusable="false"
+        android:clickable="true"
+        android:padding="12dp" />
 
-        <EditText
-            android:id="@+id/etEventTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/bg_input"
-            android:hint="Event title"
-            android:padding="12dp" />
+    <Button
+        android:id="@+id/btnSaveEvent"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="18dp"
+        android:text="Save Event"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/bg_button"
+        android:backgroundTint="@null" />
 
-        <EditText
-            android:id="@+id/etEventDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/bg_input"
-            android:hint="dd-MM-yyyy"
-            android:padding="12dp" />
+    <Button
+        android:id="@+id/btnCancelEvent"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:text="Cancel"
+        android:textAllCaps="false"
+        android:background="@drawable/bg_input"
+        android:backgroundTint="@null" />
 
-        <Button
-            android:id="@+id/btnSaveEvent"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="18dp"
-            android:background="@drawable/bg_button"
-            android:backgroundTint="@null"
-            android:text="Save Event"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF" />
-    </LinearLayout>
-</ScrollView>
+</LinearLayout>

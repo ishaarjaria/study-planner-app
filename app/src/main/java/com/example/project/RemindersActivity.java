@@ -2,6 +2,7 @@ package com.example.project;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -12,6 +13,9 @@ public class RemindersActivity extends AppCompatActivity {
 
     Button btnAddReminder;
     LinearLayout timelineContainer;
+    TextView btnBack;
+    LinearLayout navDashboard, navCalendar, navTasks, navProgress, navProfile;
+    private static final String TAG = "RemindersActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,11 +24,24 @@ public class RemindersActivity extends AppCompatActivity {
 
         btnAddReminder = findViewById(R.id.btnAddReminder);
         timelineContainer = findViewById(R.id.timelineContainer);
+        btnBack = findViewById(R.id.btnBack);
+        navDashboard = findViewById(R.id.navDashboard);
+        navCalendar = findViewById(R.id.navCalendar);
+        navTasks = findViewById(R.id.navTasks);
+        navProgress = findViewById(R.id.navProgress);
+        navProfile = findViewById(R.id.navProfile);
 
         btnAddReminder.setOnClickListener(v -> {
             Intent intent = new Intent(this, AddReminderActivity.class);
             startActivityForResult(intent, 1);
         });
+
+        btnBack.setOnClickListener(v -> finish());
+        navDashboard.setOnClickListener(v -> startActivity(new Intent(this, DashboardActivity.class)));
+        navCalendar.setOnClickListener(v -> startActivity(new Intent(this, CalendarActivity.class)));
+        navTasks.setOnClickListener(v -> startActivity(new Intent(this, TasksActivity.class)));
+        navProgress.setOnClickListener(v -> startActivity(new Intent(this, ProgressActivity.class)));
+        navProfile.setOnClickListener(v -> startActivity(new Intent(this, ProfileActivity.class)));
     }
 
     @Override
@@ -41,6 +58,7 @@ public class RemindersActivity extends AppCompatActivity {
     }
 
     private void addReminder(String title, String subject, String time) {
+        Log.d(TAG, "Adding reminder title=" + title + ", subject=" + subject + ", time=" + time);
 
         LinearLayout row = new LinearLayout(this);
         row.setOrientation(LinearLayout.HORIZONTAL);

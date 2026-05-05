@@ -11,7 +11,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.widget.LinearLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
+<<<<<<< HEAD
 import com.google.firebase.auth.FirebaseUser;
+=======
+>>>>>>> 58c259c (new changes)
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -23,15 +26,23 @@ public class TimetableActivity extends AppCompatActivity {
     EditText etSubjects, etDate, etHours, etPriority;
     Button btnGenerate;
     TextView btnBack, navDashboard, navCalendar, navTasks, navProgress, navProfile;
+<<<<<<< HEAD
     private FirebaseFirestore firestore;
     private FirebaseUser currentUser;
+=======
+    FirebaseFirestore firestore;
+    private static final String TAG = "TimetableActivity";
+>>>>>>> 58c259c (new changes)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timetable);
         firestore = FirebaseFirestore.getInstance();
+<<<<<<< HEAD
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
+=======
+>>>>>>> 58c259c (new changes)
 
         // 🔗 Link UI
         etSubjects = findViewById(R.id.etSubjects);
@@ -47,6 +58,22 @@ public class TimetableActivity extends AppCompatActivity {
         LinearLayout navTasks = findViewById(R.id.navTasks);
         LinearLayout navProgress = findViewById(R.id.navProgress);
         LinearLayout navProfile = findViewById(R.id.navProfile);
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            firestore.collection("timetables")
+                    .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                    .get()
+                    .addOnSuccessListener(doc -> {
+                        String subjects = doc.getString("subjects");
+                        String date = doc.getString("examDate");
+                        String hours = doc.getString("dailyHours");
+                        String priority = doc.getString("prioritySubject");
+                        if (subjects != null) etSubjects.setText(subjects);
+                        if (date != null) etDate.setText(date);
+                        if (hours != null) etHours.setText(hours);
+                        if (priority != null) etPriority.setText(priority);
+                    })
+                    .addOnFailureListener(e -> Log.e(TAG, "Failed to preload timetable", e));
+        }
 
         // 🔙 Back button
         btnBack.setOnClickListener(v -> {
@@ -64,6 +91,7 @@ public class TimetableActivity extends AppCompatActivity {
             if (subjects.isEmpty() || date.isEmpty() || hours.isEmpty() || priority.isEmpty()) {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
             } else {
+<<<<<<< HEAD
                 String generatedPlan = "Subjects: " + subjects
                         + "\nExam Start: " + date
                         + "\nDaily Hours: " + hours
@@ -73,6 +101,28 @@ public class TimetableActivity extends AppCompatActivity {
                 saveTimetableDraft(subjects, date, hours, priority, generatedPlan);
                 Intent intent = new Intent(this, TimetableResultActivity.class);
                 intent.putExtra("generatedPlan", generatedPlan);
+=======
+                String aiPlan = "Day-wise plan based on " + subjects + " subjects, " + hours
+                        + " hrs/day with focus on " + priority + " from " + date + ".";
+
+                if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                    Map<String, Object> payload = new HashMap<>();
+                    payload.put("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    payload.put("subjects", subjects);
+                    payload.put("examDate", date);
+                    payload.put("dailyHours", hours);
+                    payload.put("prioritySubject", priority);
+                    payload.put("aiPlan", aiPlan);
+                    payload.put("updatedAt", System.currentTimeMillis());
+                    firestore.collection("timetables")
+                            .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            .set(payload)
+                            .addOnFailureListener(e -> Log.e(TAG, "Failed to save timetable", e));
+                }
+
+                Intent intent = new Intent(this, TimetableResultActivity.class);
+                intent.putExtra("aiPlan", aiPlan);
+>>>>>>> 58c259c (new changes)
                 startActivity(intent);
             }
         });

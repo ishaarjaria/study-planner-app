@@ -37,7 +37,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/tvGreeting"
+                        android:id="@+id/tvHello"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Hello, Student!"
@@ -46,7 +46,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/tvDate"
+                        android:id="@+id/tvTodayDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Wednesday, March 18, 2026"
@@ -74,13 +74,13 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/tvProgressPercent"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Today's Progress"
                         android:textStyle="bold"/>
 
                     <TextView
+                        android:id="@+id/tvProgressPercent"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="65%"
@@ -90,7 +90,7 @@
                 </RelativeLayout>
 
                 <ProgressBar
-                    android:id="@+id/progressTasks"
+                    android:id="@+id/pbTodayProgress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -99,7 +99,7 @@
                     style="?android:attr/progressBarStyleHorizontal"/>
 
                 <TextView
-                    android:id="@+id/tvProgressSummary"
+                    android:id="@+id/tvProgressMeta"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="↗ 2 of 3 tasks completed"
@@ -124,14 +124,13 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/tvNextExamName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Next Exam"
                         android:textColor="#555555"/>
 
                     <TextView
-                        android:id="@+id/tvNextExamDays"
+                        android:id="@+id/tvNextExamTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Mathematics Finals"
@@ -139,6 +138,7 @@
                         android:textSize="16sp"/>
 
                     <TextView
+                        android:id="@+id/tvNextExamDays"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="12 days remaining"/>
@@ -231,7 +231,7 @@
                     android:background="@drawable/bg_card_white"
                     android:clickable="true"
                     android:focusable="true"
-                    android:foreground="?attr/selectableItemBackground">>
+                    android:foreground="?attr/selectableItemBackground">
 
                     <ImageView
                         android:layout_width="40dp"

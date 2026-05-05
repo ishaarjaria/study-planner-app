@@ -59,6 +59,14 @@
                     android:text="Optimized for maximum retention and minimal burnout"
                     android:textSize="12sp"
                     android:layout_marginTop="6dp"/>
+
+                <TextView
+                    android:id="@+id/tvAiPlan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Plan preview"
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <!-- SUBJECT CARDS -->

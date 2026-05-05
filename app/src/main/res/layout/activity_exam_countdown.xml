@@ -47,13 +47,13 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tvNextExamInDays"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Next Exam In"
                     android:textColor="#555"/>
 
                 <TextView
+                    android:id="@+id/tvNextExamDays"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="12 Days"
@@ -69,7 +69,7 @@
                     android:layout_marginTop="10dp">
 
                     <TextView
-                        android:id="@+id/tvNextExamSummary"
+                        android:id="@+id/tvNextExamDetail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Mathematics Finals\nMar 24, 2026"/>
@@ -102,7 +102,6 @@
                         android:textColor="#5a4b8a" />
 
                     <TextView
-                        android:id="@+id/tvThisMonthExams"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Total Exams"
@@ -120,7 +119,7 @@
                     android:layout_marginEnd="6dp">
 
                     <TextView
-                        android:id="@+id/tvAvgExamProgress"
+                        android:id="@+id/tvThisMonthExams"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="1"
@@ -144,6 +143,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tvAvgProgress"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="43%"
@@ -166,23 +166,22 @@
                 android:textStyle="bold"
                 android:layout_marginTop="20dp"/>
 
-            <Button
-                android:id="@+id/btnAddExam"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="10dp"
-                android:text="Add Exam"
-                android:textAllCaps="false"
-                android:textColor="#FFFFFF"
-                android:background="@drawable/bg_button"
-                android:backgroundTint="@null"/>
-
             <LinearLayout
                 android:id="@+id/examListContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="8dp"/>
+                android:orientation="vertical" />
+
+            <Button
+                android:id="@+id/btnAddExam"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="16dp"
+                android:text="Add Exam"
+                android:textAllCaps="false"
+                android:background="@drawable/bg_button"
+                android:backgroundTint="@null"
+                android:textColor="#FFFFFF" />
 
             <!-- EXAM CARD TEMPLATE -->
             <!-- Mathematics -->
