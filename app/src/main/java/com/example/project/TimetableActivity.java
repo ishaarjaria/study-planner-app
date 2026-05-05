@@ -2,6 +2,7 @@ package com.example.project;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -9,16 +10,28 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import android.widget.LinearLayout;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class TimetableActivity extends AppCompatActivity {
+    private static final String TAG = "TimetableActivity";
 
     EditText etSubjects, etDate, etHours, etPriority;
     Button btnGenerate;
     TextView btnBack, navDashboard, navCalendar, navTasks, navProgress, navProfile;
+    private FirebaseFirestore firestore;
+    private FirebaseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timetable);
+        firestore = FirebaseFirestore.getInstance();
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         // 🔗 Link UI
         etSubjects = findViewById(R.id.etSubjects);
@@ -51,8 +64,16 @@ public class TimetableActivity extends AppCompatActivity {
             if (subjects.isEmpty() || date.isEmpty() || hours.isEmpty() || priority.isEmpty()) {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
             } else {
-                // 🔥 OPEN RESULT PAGE
-                startActivity(new Intent(this, TimetableResultActivity.class));
+                String generatedPlan = "Subjects: " + subjects
+                        + "\nExam Start: " + date
+                        + "\nDaily Hours: " + hours
+                        + "\nPriority: " + priority
+                        + "\n\nAI Plan:\n- Focus " + priority + " first each day\n- Split revision + practice sessions\n- Keep 30 min recap nightly";
+
+                saveTimetableDraft(subjects, date, hours, priority, generatedPlan);
+                Intent intent = new Intent(this, TimetableResultActivity.class);
+                intent.putExtra("generatedPlan", generatedPlan);
+                startActivity(intent);
             }
         });
         // 🔽 Bottom Navigation
@@ -71,5 +92,25 @@ public class TimetableActivity extends AppCompatActivity {
 
         navProfile.setOnClickListener(v ->
                 startActivity(new Intent(this, ProfileActivity.class)));
+    }
+
+    private void saveTimetableDraft(String subjects, String date, String hours, String priority, String generatedPlan) {
+        if (currentUser == null) {
+            Log.e(TAG, "Cannot save timetable, user null");
+            return;
+        }
+        Map<String, Object> data = new HashMap<>();
+        data.put("subjects", subjects);
+        data.put("examStartDate", date);
+        data.put("dailyHours", hours);
+        data.put("prioritySubject", priority);
+        data.put("generatedPlan", generatedPlan);
+        data.put("updatedAt", System.currentTimeMillis());
+
+        firestore.collection("users").document(currentUser.getUid())
+                .collection("timetable")
+                .document("latest")
+                .set(data)
+                .addOnFailureListener(e -> Log.e(TAG, "Failed to save timetable draft", e));
     }
 }

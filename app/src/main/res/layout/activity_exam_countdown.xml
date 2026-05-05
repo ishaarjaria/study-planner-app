@@ -47,6 +47,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tvNextExamInDays"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Next Exam In"
@@ -68,6 +69,7 @@
                     android:layout_marginTop="10dp">
 
                     <TextView
+                        android:id="@+id/tvNextExamSummary"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Mathematics Finals\nMar 24, 2026"/>
@@ -92,6 +94,7 @@
                     android:layout_marginEnd="6dp">
 
                     <TextView
+                        android:id="@+id/tvTotalExams"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="5"
@@ -99,6 +102,7 @@
                         android:textColor="#5a4b8a" />
 
                     <TextView
+                        android:id="@+id/tvThisMonthExams"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Total Exams"
@@ -116,6 +120,7 @@
                     android:layout_marginEnd="6dp">
 
                     <TextView
+                        android:id="@+id/tvAvgExamProgress"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="1"
@@ -160,6 +165,24 @@
                 android:text="All Exams"
                 android:textStyle="bold"
                 android:layout_marginTop="20dp"/>
+
+            <Button
+                android:id="@+id/btnAddExam"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="10dp"
+                android:text="Add Exam"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/bg_button"
+                android:backgroundTint="@null"/>
+
+            <LinearLayout
+                android:id="@+id/examListContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="8dp"/>
 
             <!-- EXAM CARD TEMPLATE -->
             <!-- Mathematics -->

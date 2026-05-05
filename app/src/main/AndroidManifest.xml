@@ -27,6 +27,12 @@
             android:name=".AddTaskActivity"
             android:exported="false" />
         <activity
+            android:name=".AddExamActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddEventActivity"
+            android:exported="false" />
+        <activity
             android:name=".TimetableResultActivity"
             android:exported="false" /> <!-- Splash Screen (Main Launcher) -->
         <activity

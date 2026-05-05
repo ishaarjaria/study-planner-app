@@ -62,6 +62,15 @@
             </LinearLayout>
 
             <!-- SUBJECT CARDS -->
+            <TextView
+                android:id="@+id/tvGeneratedSchedule"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/bg_card_white"
+                android:padding="12dp"
+                android:text="Your generated timetable will appear here."
+                android:textColor="#333333"/>
 
             <!-- 1 -->
             <LinearLayout

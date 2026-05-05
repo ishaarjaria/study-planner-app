@@ -7,6 +7,8 @@ import android.os.Looper;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final int SPLASH_TIME = 2000;
@@ -17,7 +19,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            Class<?> next = FirebaseAuth.getInstance().getCurrentUser() == null
+                    ? LoginActivity.class
+                    : DashboardActivity.class;
+            Intent intent = new Intent(MainActivity.this, next);
             startActivity(intent);
             finish();
         }, SPLASH_TIME);
