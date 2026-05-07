@@ -101,7 +101,7 @@ public class ProfileActivity extends AppCompatActivity {
                 startActivity(new Intent(this, NotificationActivity.class)));
 
         btnEdit.setOnClickListener(v ->
-                startActivity(new Intent(this, EditProfileActivity.class)));
+                startActivity(new Intent(this, SetupProfileActivity.class)));
 
         btnSupport.setOnClickListener(v ->
                 startActivity(new Intent(this, SupportActivity.class)));

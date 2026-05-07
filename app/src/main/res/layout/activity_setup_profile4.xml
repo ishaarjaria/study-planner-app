@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F6F6F8">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- TITLE ROW -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Setup Your Profile"
+                android:textStyle="bold"
+                android:textSize="24sp"
+                android:textColor="#222222"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Step 4/4"
+                android:textSize="13sp"
+                android:textColor="#AAAAAA"/>
+        </LinearLayout>
+
+        <!-- PROGRESS -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#CBB8FF"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginStart="6dp"
+                android:background="#CBB8FF"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginStart="6dp"
+                android:background="#CBB8FF"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginStart="6dp"
+                android:background="#CBB8FF"/>
+        </LinearLayout>
+
+        <!-- CARD -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="190dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/card_red"
+            android:layout_marginTop="34dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="❗"
+                android:textSize="42sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Focus Areas"
+                android:textStyle="bold"
+                android:textSize="24sp"
+                android:textColor="#2F2F2F"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Which subjects need more attention?"
+                android:textAlignment="center"
+                android:textSize="14sp"
+                android:textColor="#777777"
+                android:layout_marginTop="8dp"/>
+        </LinearLayout>
+
+        <!-- LABEL -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Weak Subjects"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:textColor="#444444"
+            android:layout_marginTop="30dp"/>
+
+        <!-- BOX -->
+        <LinearLayout
+            android:id="@+id/weakSubjectsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_card_white">
+
+            <TextView
+                android:id="@+id/tvWeakSubjects"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add subjects in step 1 first"
+                android:textSize="14sp"
+                android:textColor="#999999"/>
+        </LinearLayout>
+
+        <!-- SPACE -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <!-- BUTTONS -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp">
+
+            <!-- BACK -->
+            <Button
+                android:id="@+id/btnBack"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="‹   Back"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                android:textColor="#444444"
+                android:background="@drawable/bg_button_outline"/>
+
+            <!-- COMPLETE -->
+            <Button
+                android:id="@+id/btnComplete"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Complete Setup"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                android:textColor="#4B3B77"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/card_purple"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

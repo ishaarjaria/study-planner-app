@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F6F6F8">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- TITLE ROW -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Setup Your Profile"
+                android:textStyle="bold"
+                android:textSize="24sp"
+                android:textColor="#222222"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Step 3/4"
+                android:textSize="13sp"
+                android:textColor="#AAAAAA"/>
+        </LinearLayout>
+
+        <!-- PROGRESS -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#CBB8FF"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginStart="6dp"
+                android:background="#CBB8FF"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginStart="6dp"
+                android:background="#CBB8FF"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginStart="6dp"
+                android:background="#DDDDDD"/>
+        </LinearLayout>
+
+        <!-- CARD -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="190dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/card_pink"
+            android:layout_marginTop="34dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🕒"
+                android:textSize="42sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Study Hours"
+                android:textStyle="bold"
+                android:textSize="24sp"
+                android:textColor="#2F2F2F"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="How many hours can you study per\nday?"
+                android:textAlignment="center"
+                android:textSize="14sp"
+                android:textColor="#777777"
+                android:layout_marginTop="8dp"/>
+        </LinearLayout>
+
+        <!-- LABEL -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Daily Study Hours"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:textColor="#444444"
+            android:layout_marginTop="30dp"/>
+
+        <!-- INPUT -->
+        <EditText
+            android:id="@+id/etHours"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:hint="2"
+            android:textSize="15sp"
+            android:paddingHorizontal="16dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_card_white"
+            android:inputType="number"/>
+
+        <!-- INFO -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Recommended: 2-4 hours per day"
+            android:textSize="12sp"
+            android:textColor="#999999"
+            android:layout_marginTop="12dp"/>
+
+        <!-- SPACE -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <!-- BUTTON ROW -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp">
+
+            <!-- BACK -->
+            <Button
+                android:id="@+id/btnBack"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="‹   Back"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                android:textColor="#444444"
+                android:background="@drawable/bg_button_outline"/>
+
+            <!-- NEXT -->
+            <Button
+                android:id="@+id/btnNext"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Next   ›"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                android:textColor="#4B3B77"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/card_purple"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

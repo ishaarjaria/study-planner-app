@@ -1,10 +1,526 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SuggestionsActivity">
+    android:background="#F5F5F7">
+
+    <!-- 🔽 SCROLLABLE CONTENT -->
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomFixed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <!-- TITLE -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="AI Study Assistant"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="#222222"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Personalized study guidance for you"
+                android:textSize="12sp"
+                android:textColor="#777777"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- AI CARD -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:background="@drawable/card_gradient">
+
+                <!-- ICON -->
+                <LinearLayout
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:gravity="center"
+                    android:background="@drawable/bg_card_white">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="✨"
+                        android:textSize="20sp"/>
+                </LinearLayout>
+
+                <!-- TEXT -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginStart="14dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hi there! 👋"
+                        android:textStyle="bold"
+                        android:textSize="15sp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="I've analyzed your study patterns and have personalized suggestions for you."
+                        android:textSize="12sp"
+                        android:textColor="#666666"
+                        android:layout_marginTop="4dp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- STATS -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp">
+
+                <!-- NEEDS -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="70dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/bg_card_white"
+                    android:layout_marginEnd="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2"
+                        android:textStyle="bold"
+                        android:textColor="#FF6B6B"
+                        android:textSize="18sp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Needs\nAttention"
+                        android:textAlignment="center"
+                        android:textSize="10sp"/>
+                </LinearLayout>
+
+                <!-- IMPORTANT -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="70dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/bg_card_white"
+                    android:layout_marginEnd="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2"
+                        android:textStyle="bold"
+                        android:textColor="#F7B731"
+                        android:textSize="18sp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Important"
+                        android:textSize="10sp"/>
+                </LinearLayout>
+
+                <!-- TIPS -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="70dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/bg_card_white">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1"
+                        android:textStyle="bold"
+                        android:textColor="#4CAF50"
+                        android:textSize="18sp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tips"
+                        android:textSize="10sp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- SECTION -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Smart Suggestions"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginTop="22dp"
+                android:layout_marginBottom="12dp"/>
+
+            <!-- CARD 1 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/card_pink"
+                android:padding="14dp"
+                android:layout_marginBottom="12dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="📘 Physics Needs More Attention"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:text="High"
+                        android:textSize="10sp"
+                        android:gravity="center"
+                        android:paddingHorizontal="10dp"
+                        android:background="@drawable/card_red"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Your Physics progress is falling behind. Consider adding 2 extra hours this week."
+                    android:textSize="12sp"
+                    android:textColor="#666666"
+                    android:layout_marginTop="6dp"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="12dp">
+
+                    <Button
+                        android:layout_width="90dp"
+                        android:layout_height="38dp"
+                        android:text="Apply"
+                        android:textAllCaps="false"
+                        android:textSize="12sp"
+                        android:background="@drawable/bg_button_outline"/>
+
+                    <Button
+                        android:layout_width="90dp"
+                        android:layout_height="38dp"
+                        android:text="Dismiss"
+                        android:textAllCaps="false"
+                        android:textSize="12sp"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/bg_button_outline"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- CARD 2 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#F9F0C8"
+                android:padding="14dp"
+                android:layout_marginBottom="12dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="⏰ Take a Break Soon"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:text="Medium"
+                        android:textSize="10sp"
+                        android:gravity="center"
+                        android:paddingHorizontal="10dp"
+                        android:background="@drawable/card_yellow"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="You've been studying for 4 hours straight. A 15 minute break will boost productivity."
+                    android:textSize="12sp"
+                    android:textColor="#666666"
+                    android:layout_marginTop="6dp"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="12dp">
+
+                    <Button
+                        android:layout_width="90dp"
+                        android:layout_height="38dp"
+                        android:text="Apply"
+                        android:textAllCaps="false"
+                        android:textSize="12sp"
+                        android:background="@drawable/bg_button_outline"/>
+
+                    <Button
+                        android:layout_width="90dp"
+                        android:layout_height="38dp"
+                        android:text="Dismiss"
+                        android:textAllCaps="false"
+                        android:textSize="12sp"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/bg_button_outline"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- CARD 3 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/card_green"
+                android:padding="14dp"
+                android:layout_marginBottom="12dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="💡 Best Study Time Detected"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:text="Low"
+                        android:textSize="10sp"
+                        android:gravity="center"
+                        android:paddingHorizontal="10dp"
+                        android:background="@drawable/card_green"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="You're most productive between 2 PM - 5 PM. Schedule difficult subjects during this time."
+                    android:textSize="12sp"
+                    android:textColor="#666666"
+                    android:layout_marginTop="6dp"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="12dp">
+
+                    <Button
+                        android:layout_width="90dp"
+                        android:layout_height="38dp"
+                        android:text="Apply"
+                        android:textAllCaps="false"
+                        android:textSize="12sp"
+                        android:background="@drawable/bg_button_outline"/>
+
+                    <Button
+                        android:layout_width="90dp"
+                        android:layout_height="38dp"
+                        android:text="Dismiss"
+                        android:textAllCaps="false"
+                        android:textSize="12sp"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/bg_button_outline"/>
+                </LinearLayout>
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- 🔥 FIXED BOTTOM -->
+    <LinearLayout
+        android:id="@+id/bottomFixed"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Back -->
+        <TextView
+            android:id="@+id/btnBack"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:text="← Back to Screen Navigator"
+            android:gravity="center"
+            android:background="#D6D4F5"/>
+
+        <!-- Bottom Nav -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            android:background="#FFFFFF"
+            android:weightSum="5">
+
+            <!-- Dashboard -->
+            <LinearLayout
+                android:id="@+id/navDashboard"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/homebttn"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dashboard"
+                    android:textSize="12sp"/>
+            </LinearLayout>
+
+            <!-- Calendar -->
+            <LinearLayout
+                android:id="@+id/navCalendar"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/calbutton"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Calendar"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <!-- Tasks -->
+            <LinearLayout
+                android:id="@+id/navTasks"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/taskbutton"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tasks"
+                    android:textSize="12sp"/>
+            </LinearLayout>
+
+            <!-- Progress -->
+            <LinearLayout
+                android:id="@+id/navProgress"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/chckbttn"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Progress"
+                    android:textSize="12sp"/>
+            </LinearLayout>
+
+            <!-- Profile -->
+            <LinearLayout
+                android:id="@+id/navProfile"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/prflbttn"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Profile"
+                    android:textSize="12sp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
