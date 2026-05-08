@@ -27,17 +27,7 @@ public class SetupProfile3Activity extends AppCompatActivity {
         btnNext = findViewById(R.id.btnNext);
 
         // BACK
-        btnBack.setOnClickListener(v -> {
-
-            Intent intent = new Intent(
-                    SetupProfile3Activity.this,
-                    SetupProfile2Activity.class
-            );
-
-            startActivity(intent);
-
-            finish();
-        });
+        btnBack.setOnClickListener(v -> navigateToLanding());
 
         // NEXT
         btnNext.setOnClickListener(v -> {
@@ -64,5 +54,12 @@ public class SetupProfile3Activity extends AppCompatActivity {
 
             startActivity(intent);
         });
+    }
+
+    private void navigateToLanding() {
+        Intent intent = new Intent(this, LandingActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
     }
 }

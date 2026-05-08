@@ -1,7 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Base.Theme.Project" parent="Theme.AppCompat.Light.NoActionBar">
-    </style>
+    <style name="Base.Theme.Project" parent="Theme.AppCompat.DayNight.NoActionBar" />
 
     <style name="Theme.Project" parent="Base.Theme.Project" />
 

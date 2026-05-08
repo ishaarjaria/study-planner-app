@@ -30,17 +30,7 @@ public class SetupProfile2Activity extends AppCompatActivity {
         btnNext = findViewById(R.id.btnNext);
 
         // 🔙 BACK BUTTON
-        btnBack.setOnClickListener(v -> {
-
-            Intent intent = new Intent(
-                    SetupProfile2Activity.this,
-                    SetupProfileActivity.class
-            );
-
-            startActivity(intent);
-
-            finish();
-        });
+        btnBack.setOnClickListener(v -> navigateToLanding());
 
         // ➡ NEXT BUTTON
         btnNext.setOnClickListener(v -> {
@@ -71,5 +61,12 @@ public class SetupProfile2Activity extends AppCompatActivity {
 
             startActivity(intent);
         });
+    }
+
+    private void navigateToLanding() {
+        Intent intent = new Intent(this, LandingActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
     }
 }

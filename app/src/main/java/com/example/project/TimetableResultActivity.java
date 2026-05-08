@@ -4,170 +4,121 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
-import android.widget.LinearLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
-<<<<<<< HEAD
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
 
-=======
-import com.google.firebase.firestore.FirebaseFirestore;
-
->>>>>>> 58c259c (new changes)
 public class TimetableResultActivity extends AppCompatActivity {
+
     private static final String TAG = "TimetableResultActivity";
 
-    TextView btnBack, navDashboard, navCalendar, navTasks, navProgress, navProfile;
-    Button btnRegenerate, btnSave;
-<<<<<<< HEAD
     private TextView tvGeneratedSchedule;
+    private Button btnRegenerate, btnSave;
+
     private FirebaseFirestore firestore;
-    private FirebaseUser currentUser;
+    private String uid;
     private String generatedPlan;
-=======
-    TextView tvAiPlan;
-    private FirebaseFirestore firestore;
-    private String aiPlan;
-    private static final String TAG = "TimetableResultActivity";
->>>>>>> 58c259c (new changes)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timetable_result);
+
         firestore = FirebaseFirestore.getInstance();
-<<<<<<< HEAD
-        currentUser = FirebaseAuth.getInstance().getCurrentUser();
-=======
-        aiPlan = getIntent().getStringExtra("aiPlan");
->>>>>>> 58c259c (new changes)
+        uid = FirebaseAuth.getInstance().getCurrentUser() != null
+                ? FirebaseAuth.getInstance().getCurrentUser().getUid()
+                : null;
 
-        // 🔗 Link Views
-        btnBack = findViewById(R.id.btnBack);
+        if (uid == null) {
+            Toast.makeText(this, "Please login again", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
 
-        LinearLayout navDashboard = findViewById(R.id.navDashboard);
-        LinearLayout navCalendar = findViewById(R.id.navCalendar);
-        LinearLayout navTasks = findViewById(R.id.navTasks);
-        LinearLayout navProgress = findViewById(R.id.navProgress);
-        LinearLayout navProfile = findViewById(R.id.navProfile);
-
+        // Views
+        tvGeneratedSchedule = findViewById(R.id.tvGeneratedSchedule);
         btnRegenerate = findViewById(R.id.btnRegenerate);
         btnSave = findViewById(R.id.btnSave);
-<<<<<<< HEAD
-        tvGeneratedSchedule = findViewById(R.id.tvGeneratedSchedule);
+
+        // Get generated plan from previous screen
         generatedPlan = getIntent().getStringExtra("generatedPlan");
+
         if (generatedPlan != null && !generatedPlan.trim().isEmpty()) {
             tvGeneratedSchedule.setText(generatedPlan);
         } else {
             loadSavedTimetable();
-=======
-        tvAiPlan = findViewById(R.id.tvAiPlan);
-        if (aiPlan != null) {
-            tvAiPlan.setText(aiPlan);
->>>>>>> 58c259c (new changes)
         }
 
-        // 🔙 Back to previous screen
-        btnBack.setOnClickListener(v -> finish());
+        // Regenerate → go back
+        btnRegenerate.setOnClickListener(v -> finish());
 
-        // 🔁 Regenerate → go back to input page
-        btnRegenerate.setOnClickListener(v -> {
-            finish(); // returns to TimetableActivity
-        });
+        // Save timetable
+        btnSave.setOnClickListener(v -> saveTimetable());
 
-        // 💾 Save Schedule
-        btnSave.setOnClickListener(v -> {
-<<<<<<< HEAD
-            saveFinalTimetable();
-=======
-            if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-                Toast.makeText(this, "Please login again", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-            firestore.collection("timetables").document(uid)
-                    .update("saved", true, "savedAt", System.currentTimeMillis())
-                    .addOnSuccessListener(unused -> Toast.makeText(this, "Schedule Saved!", Toast.LENGTH_SHORT).show())
-                    .addOnFailureListener(e -> {
-                        Log.e(TAG, "Save schedule failed", e);
-                        Toast.makeText(this, "Could not save schedule", Toast.LENGTH_SHORT).show();
-                    });
->>>>>>> 58c259c (new changes)
-        });
-
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-            firestore.collection("timetables").document(uid).get().addOnSuccessListener(doc -> {
-                String latestPlan = doc.getString("aiPlan");
-                if (latestPlan != null && !latestPlan.trim().isEmpty()) {
-                    aiPlan = latestPlan;
-                    tvAiPlan.setText(aiPlan);
-                }
-                if (aiPlan != null) {
-                    Toast.makeText(this, "Timetable loaded", Toast.LENGTH_SHORT).show();
-                }
-            }).addOnFailureListener(e -> Log.e(TAG, "Failed to fetch timetable", e));
-        }
-
-        // 🔽 Bottom Navigation
-        navDashboard.setOnClickListener(v ->
+        // Navigation
+        findViewById(R.id.navDashboard).setOnClickListener(v ->
                 startActivity(new Intent(this, DashboardActivity.class)));
 
-        navCalendar.setOnClickListener(v ->
+        findViewById(R.id.navCalendar).setOnClickListener(v ->
                 startActivity(new Intent(this, CalendarActivity.class)));
 
-        navTasks.setOnClickListener(v ->
+        findViewById(R.id.navTasks).setOnClickListener(v ->
                 startActivity(new Intent(this, TasksActivity.class)));
 
-        navProgress.setOnClickListener(v ->
+        findViewById(R.id.navProgress).setOnClickListener(v ->
                 startActivity(new Intent(this, ProgressActivity.class)));
 
-        navProfile.setOnClickListener(v ->
+        findViewById(R.id.navProfile).setOnClickListener(v ->
                 startActivity(new Intent(this, ProfileActivity.class)));
     }
 
     private void loadSavedTimetable() {
-        if (currentUser == null) {
-            return;
-        }
-        firestore.collection("users").document(currentUser.getUid())
-                .collection("timetable").document("latest")
-                .get()
-                .addOnSuccessListener(snapshot -> {
-                    String savedPlan = snapshot.getString("generatedPlan");
-                    if (savedPlan != null && !savedPlan.trim().isEmpty()) {
-                        generatedPlan = savedPlan;
-                        tvGeneratedSchedule.setText(savedPlan);
-                    }
-                })
-                .addOnFailureListener(e -> Log.e(TAG, "Failed to load timetable", e));
-    }
-
-    private void saveFinalTimetable() {
-        if (currentUser == null) {
-            Toast.makeText(this, "Please login again", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        Map<String, Object> saveData = new HashMap<>();
-        saveData.put("generatedPlan", generatedPlan == null ? tvGeneratedSchedule.getText().toString() : generatedPlan);
-        saveData.put("saved", true);
-        saveData.put("savedAt", System.currentTimeMillis());
-
-        firestore.collection("users").document(currentUser.getUid())
+        firestore.collection("users")
+                .document(uid)
                 .collection("timetable")
                 .document("latest")
-                .set(saveData, com.google.firebase.firestore.SetOptions.merge())
-                .addOnSuccessListener(unused -> Toast.makeText(this, "Schedule Saved!", Toast.LENGTH_SHORT).show())
+                .get()
+                .addOnSuccessListener(doc -> {
+                    if (doc.exists()) {
+                        String plan = doc.getString("generatedPlan");
+                        if (plan != null && !plan.isEmpty()) {
+                            tvGeneratedSchedule.setText(plan);
+                        }
+                    }
+                })
+                .addOnFailureListener(e ->
+                        Log.e(TAG, "Load failed", e));
+    }
+
+    private void saveTimetable() {
+
+        String plan = generatedPlan != null
+                ? generatedPlan
+                : tvGeneratedSchedule.getText().toString();
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("generatedPlan", plan);
+        data.put("saved", true);
+        data.put("savedAt", System.currentTimeMillis());
+
+        firestore.collection("users")
+                .document(uid)
+                .collection("timetable")
+                .document("latest")
+                .set(data)
+                .addOnSuccessListener(unused ->
+                        Toast.makeText(this, "Saved!", Toast.LENGTH_SHORT).show())
                 .addOnFailureListener(e -> {
-                    Log.e(TAG, "Save schedule failed", e);
-                    Toast.makeText(this, "Failed to save schedule", Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "Save failed", e);
+                    Toast.makeText(this, "Failed to save", Toast.LENGTH_SHORT).show();
                 });
     }
 }

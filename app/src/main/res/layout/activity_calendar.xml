@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F7">
+    android:background="@color/screen_background">
 
     <!-- 🔽 SCROLLABLE CONTENT -->
     <ScrollView
@@ -108,49 +108,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical" />
 
-            <!-- EVENT 1 -->
-            <LinearLayout
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/card_red">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Assignment Submission\nMar 12"/>
-            </LinearLayout>
-
-            <!-- EVENT 2 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/card_pink">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Mathematics Finals\nMar 15"/>
-            </LinearLayout>
-
-            <!-- EVENT 3 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/card_blue">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Chemistry Test\nMar 22"/>
-            </LinearLayout>
-
         </LinearLayout>
     </ScrollView>
 
@@ -171,13 +128,13 @@
             android:layout_height="45dp"
             android:text="← Back to Screen Navigator"
             android:gravity="center"
-            android:background="#D6D4F5"/>
+            android:background="@color/back_strip_background"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:orientation="horizontal"
-            android:background="#FFFFFF"
+            android:background="@color/bottom_nav_background"
             android:weightSum="5">
 
             <!-- Dashboard -->

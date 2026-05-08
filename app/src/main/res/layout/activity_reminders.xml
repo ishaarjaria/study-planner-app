@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F7">
+    android:background="@color/screen_background">
 
     <!-- 🔽 SCROLLABLE CONTENT -->
     <ScrollView
@@ -60,9 +60,10 @@
                         android:text="🗓"
                         android:textSize="16sp"/>
                     <TextView
+                        android:id="@+id/tvUpcomingCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="4"
+                        android:text="0"
                         android:textSize="18sp"
                         android:textStyle="bold"/>
                     <TextView
@@ -86,9 +87,10 @@
                         android:layout_height="wrap_content"
                         android:text="⏱" android:textSize="16sp"/>
                     <TextView
+                        android:id="@+id/tvCompletedCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2" android:textSize="18sp" android:textStyle="bold"/>
+                        android:text="0" android:textSize="18sp" android:textStyle="bold"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -100,208 +102,31 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Today's Timeline"
+                android:text="Upcoming Reminders"
                 android:textStyle="bold"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="10dp"/>
 
-            <!-- 🔥 TIMELINE ITEM 1 -->
             <LinearLayout
-                android:id="@+id/timelineContainer"
+                android:id="@+id/upcomingContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="📘"
-                    android:layout_marginEnd="10dp"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/card_purple"
-                    android:padding="16dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="09:00 AM"
-                        android:textSize="12sp"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Start Morning Study Session"
-                        android:textStyle="bold"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Mathematics"
-                        android:textSize="12sp"/>
-                </LinearLayout>
             </LinearLayout>
 
-            <!-- ITEM 2 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Completed Reminders"
+                android:textStyle="bold"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="10dp"/>
+
             <LinearLayout
-                android:id="@+id/timelineContainer"
+                android:id="@+id/completedContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="⏱"
-                    android:layout_marginEnd="10dp"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/card_red"
-                    android:padding="16dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="11:00 AM"
-                        android:textSize="12sp"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Take a Break"
-                        android:textStyle="bold"/>
-                </LinearLayout>
-            </LinearLayout>
-
-            <!-- ITEM 3 -->
-            <LinearLayout
-                android:id="@+id/timelineContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="📘"
-                    android:layout_marginEnd="10dp"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/card_blue"
-                    android:padding="16dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="02:00 PM"
-                        android:textSize="12sp"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Physics Study Session"
-                        android:textStyle="bold"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Physics"
-                        android:textSize="12sp"/>
-                </LinearLayout>
-            </LinearLayout>
-
-            <!-- ITEM 4 -->
-            <LinearLayout
-                android:id="@+id/timelineContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="📄"
-                    android:layout_marginEnd="10dp"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/card_pink"
-                    android:padding="16dp"
-                    android:orientation="vertical">
-
-                    <TextView android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" android:text="04:00 PM" android:textSize="12sp"/>
-                    <TextView android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" android:text="Chemistry Assignment" android:textStyle="bold"/>
-                    <TextView android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" android:text="Due Tomorrow" android:textSize="12sp"/>
-                </LinearLayout>
-            </LinearLayout>
-
-            <!-- ITEM 5 -->
-            <LinearLayout
-                android:id="@+id/timelineContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:text="📘" android:layout_marginEnd="10dp"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/card_green"
-                    android:padding="16dp"
-                    android:orientation="vertical">
-
-                    <TextView android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" android:text="06:00 PM" android:textSize="12sp"/>
-                    <TextView android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" android:text="Evening Review Session" android:textStyle="bold"/>
-                    <TextView android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" android:text="English" android:textSize="12sp"/>
-                </LinearLayout>
-            </LinearLayout>
-
-            <!-- ITEM 6 -->
-            <LinearLayout
-                android:id="@+id/timelineContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:text="⏱" android:layout_marginEnd="10dp"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/card_red"
-                    android:padding="16dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="08:00 PM"
-                        android:textSize="12sp"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Exam in 2 days - Math Finals"
-                        android:textStyle="bold"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Mathematics"
-                        android:textSize="12sp"/>
-                </LinearLayout>
             </LinearLayout>
 
             <!-- ADD BUTTON -->
@@ -330,7 +155,7 @@
             android:id="@+id/btnBack"
             android:text="← Back to Screen Navigator"
             android:gravity="center"
-            android:background="#D6D4F5"
+            android:background="@color/back_strip_background"
             android:layout_width="match_parent"
             android:layout_height="45dp"/>
 
@@ -338,7 +163,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:orientation="horizontal"
-            android:background="#FFFFFF"
+            android:background="@color/bottom_nav_background"
             android:weightSum="5">
 
             <!-- Dashboard -->

@@ -3,10 +3,6 @@ package com.example.project;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-<<<<<<< HEAD
-import android.view.ViewGroup;
-=======
->>>>>>> 58c259c (new changes)
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -15,368 +11,224 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
-<<<<<<< HEAD
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-=======
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.List;
->>>>>>> 58c259c (new changes)
 import java.util.Locale;
+import java.util.Random;
 
 public class ExamCountdownActivity extends AppCompatActivity {
+
     private static final String TAG = "ExamCountdownActivity";
 
-    // Bottom nav
-    LinearLayout navDashboard, navCalendar, navTasks, navProgress, navProfile;
-
-    // Back button
-    TextView btnBack;
-    private Button btnAddExam;
     private LinearLayout examListContainer;
-<<<<<<< HEAD
-    private TextView tvNextExamInDays;
-    private TextView tvNextExamSummary;
-    private TextView tvTotalExams;
-    private TextView tvThisMonthExams;
-    private TextView tvAvgExamProgress;
-    private FirebaseFirestore firestore;
-    private FirebaseUser currentUser;
-=======
-    private TextView tvNextExamDays;
-    private TextView tvNextExamDetail;
-    private TextView tvTotalExams;
-    private TextView tvThisMonthExams;
-    private TextView tvAvgProgress;
+    private TextView tvNextExamDays, tvNextExamDetail, tvTotalExams, tvThisMonthExams, tvAvgProgress;
+    private TextView btnBack;
+
     private FirebaseFirestore firestore;
     private String uid;
-    private ListenerRegistration examsListener;
-    private static final String TAG = "ExamCountdownActivity";
->>>>>>> 58c259c (new changes)
+    private ListenerRegistration listener;
+    private final Random random = new Random();
+    private final int[] cardDrawables = {
+            R.drawable.card_green,
+            R.drawable.card_blue,
+            R.drawable.card_yellow,
+            R.drawable.card_purple,
+            R.drawable.card_pink,
+            R.drawable.card_red
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exam_countdown);
+
         firestore = FirebaseFirestore.getInstance();
-<<<<<<< HEAD
-        currentUser = FirebaseAuth.getInstance().getCurrentUser();
-=======
-        uid = FirebaseAuth.getInstance().getCurrentUser() == null
-                ? null : FirebaseAuth.getInstance().getCurrentUser().getUid();
->>>>>>> 58c259c (new changes)
 
-        // 🔹 INIT NAVIGATION
-        navDashboard = findViewById(R.id.navDashboard);
-        navCalendar = findViewById(R.id.navCalendar);
-        navTasks = findViewById(R.id.navTasks);
-        navProgress = findViewById(R.id.navProgress);
-        navProfile = findViewById(R.id.navProfile);
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+            return;
+        }
 
-        // 🔹 BACK BUTTON
-        btnBack = findViewById(R.id.btnBack);
-        btnAddExam = findViewById(R.id.btnAddExam);
+        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
         examListContainer = findViewById(R.id.examListContainer);
-<<<<<<< HEAD
-        tvNextExamInDays = findViewById(R.id.tvNextExamInDays);
-        tvNextExamSummary = findViewById(R.id.tvNextExamSummary);
-        tvTotalExams = findViewById(R.id.tvTotalExams);
-        tvThisMonthExams = findViewById(R.id.tvThisMonthExams);
-        tvAvgExamProgress = findViewById(R.id.tvAvgExamProgress);
-=======
         tvNextExamDays = findViewById(R.id.tvNextExamDays);
         tvNextExamDetail = findViewById(R.id.tvNextExamDetail);
         tvTotalExams = findViewById(R.id.tvTotalExams);
         tvThisMonthExams = findViewById(R.id.tvThisMonthExams);
         tvAvgProgress = findViewById(R.id.tvAvgProgress);
+        btnBack = findViewById(R.id.btnBack);
 
-        btnAddExam.setOnClickListener(v -> startActivity(new Intent(this, AddExamActivity.class)));
->>>>>>> 58c259c (new changes)
+        Button btnAddExam = findViewById(R.id.btnAddExam);
+        btnAddExam.setOnClickListener(v ->
+                startActivity(new Intent(this, AddExamActivity.class)));
+        btnBack.setOnClickListener(v -> navigateToLanding());
 
-        // 🔥 NAVIGATION CLICK HANDLERS
-
-        navDashboard.setOnClickListener(v ->
+        // Navigation
+        findViewById(R.id.navDashboard).setOnClickListener(v ->
                 startActivity(new Intent(this, DashboardActivity.class)));
 
-        navCalendar.setOnClickListener(v ->
+        findViewById(R.id.navCalendar).setOnClickListener(v ->
                 startActivity(new Intent(this, CalendarActivity.class)));
 
-        navTasks.setOnClickListener(v ->
+        findViewById(R.id.navTasks).setOnClickListener(v ->
                 startActivity(new Intent(this, TasksActivity.class)));
 
-        navProgress.setOnClickListener(v ->
+        findViewById(R.id.navProgress).setOnClickListener(v ->
                 startActivity(new Intent(this, ProgressActivity.class)));
 
-        navProfile.setOnClickListener(v ->
+        findViewById(R.id.navProfile).setOnClickListener(v ->
                 startActivity(new Intent(this, ProfileActivity.class)));
 
-        // 🔙 BACK
-        btnBack.setOnClickListener(v -> finish());
-<<<<<<< HEAD
-        btnAddExam.setOnClickListener(v -> startActivity(new Intent(this, AddExamActivity.class)));
+        observeExams();
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        fetchExams();
-    }
+    private void observeExams() {
+        listener = firestore.collection("users")
+                .document(uid)
+                .collection("exams")
+                .orderBy("dateMillis")
+                .addSnapshotListener((query, e) -> {
 
-    private void fetchExams() {
-        if (currentUser == null) {
-            Log.e(TAG, "Current user null in fetchExams");
-            return;
-        }
-        firestore.collection("users").document(currentUser.getUid()).collection("exams")
-                .orderBy("examDateMillis")
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (e != null || query == null) {
+                        Log.e(TAG, "Error loading exams", e);
+                        return;
+                    }
+
                     examListContainer.removeAllViews();
-                    int total = queryDocumentSnapshots.size();
+
+                    int total = query.size();
                     int thisMonth = 0;
-                    int totalProgress = 0;
-                    Long firstExamMillis = null;
-                    String firstExamTitle = "No exams";
+                    int progressSum = 0;
+
                     Calendar now = Calendar.getInstance();
-                    int currentMonth = now.get(Calendar.MONTH);
-                    int currentYear = now.get(Calendar.YEAR);
-                    for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
+
+                    Long firstDate = null;
+                    String firstTitle = "No exams";
+
+                    for (DocumentSnapshot doc : query.getDocuments()) {
+
                         String title = doc.getString("title");
-                        Long examDateMillis = doc.getLong("examDateMillis");
-                        Long progressLong = doc.getLong("progress");
-                        int progress = progressLong == null ? 0 : progressLong.intValue();
-                        totalProgress += progress;
-                        if (examDateMillis != null) {
-                            Calendar cal = Calendar.getInstance();
-                            cal.setTimeInMillis(examDateMillis);
-                            if (cal.get(Calendar.MONTH) == currentMonth && cal.get(Calendar.YEAR) == currentYear) {
+                        Long date = doc.getLong("dateMillis");
+                        Long progress = doc.getLong("progress");
+
+                        int prog;
+                        if (progress != null) {
+                            prog = progress.intValue();
+                        } else if (date != null) {
+                            long daysLeft = Math.max(0, (date - System.currentTimeMillis()) / (1000 * 60 * 60 * 24));
+                            prog = (int) Math.max(0, 100 - Math.min(100, daysLeft * 5));
+                        } else {
+                            prog = 0;
+                        }
+                        progressSum += prog;
+
+                        if (date != null) {
+                            Calendar c = Calendar.getInstance();
+                            c.setTimeInMillis(date);
+
+                            if (c.get(Calendar.MONTH) == now.get(Calendar.MONTH)
+                                    && c.get(Calendar.YEAR) == now.get(Calendar.YEAR)) {
                                 thisMonth++;
                             }
-                            if (firstExamMillis == null) {
-                                firstExamMillis = examDateMillis;
-                                firstExamTitle = title == null ? "Upcoming Exam" : title;
+
+                            if (firstDate == null) {
+                                firstDate = date;
+                                firstTitle = title == null ? "Upcoming Exam" : title;
                             }
                         }
-                        addExamCard(title == null ? "Untitled Exam" : title, examDateMillis, progress);
+
+                        addExamCard(
+                                title == null ? "Untitled Exam" : title,
+                                date,
+                                prog
+                        );
                     }
 
                     tvTotalExams.setText(String.valueOf(total));
                     tvThisMonthExams.setText(String.valueOf(thisMonth));
-                    tvAvgExamProgress.setText(total == 0 ? "0%" : ((totalProgress / total) + "%"));
-                    if (firstExamMillis == null) {
-                        tvNextExamInDays.setText("No Exams");
-                        tvNextExamSummary.setText("Add an exam to get started");
-                    } else {
-                        long days = Math.max(0, (firstExamMillis - System.currentTimeMillis()) / (1000 * 60 * 60 * 24));
-                        tvNextExamInDays.setText(days + " Days");
-                        tvNextExamSummary.setText(firstExamTitle + "\n" + formatDate(firstExamMillis));
-=======
 
-        if (uid == null) {
-            startActivity(new Intent(this, LoginActivity.class));
-            finish();
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (uid != null && examsListener == null) {
-            observeExamsRealtime();
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (examsListener != null) {
-            examsListener.remove();
-            examsListener = null;
-        }
-    }
-
-    private void loadExams() {
-        firestore.collection("exams")
-                .whereEqualTo("uid", uid)
-                .orderBy("dateMillis")
-                .get()
-                .addOnSuccessListener(query -> {
-                    List<DocumentSnapshot> docs = query.getDocuments();
-                    examListContainer.removeAllViews();
-                    int thisMonth = 0;
-                    int progressSum = 0;
-
-                    Calendar now = Calendar.getInstance();
-                    for (int i = 0; i < docs.size(); i++) {
-                        DocumentSnapshot doc = docs.get(i);
-                        String title = doc.getString("title");
-                        Long dateMillis = doc.getLong("dateMillis");
-                        Long progress = doc.getLong("progress");
-                        int progressVal = progress == null ? 0 : progress.intValue();
-                        progressSum += progressVal;
-                        if (dateMillis != null) {
-                            Calendar c = Calendar.getInstance();
-                            c.setTimeInMillis(dateMillis);
-                            if (c.get(Calendar.MONTH) == now.get(Calendar.MONTH)
-                                    && c.get(Calendar.YEAR) == now.get(Calendar.YEAR)) {
-                                thisMonth++;
-                            }
-                        }
-                        addExamCard(title == null ? "Untitled Exam" : title, dateMillis, progressVal);
-                    }
-
-                    tvTotalExams.setText(String.valueOf(docs.size()));
-                    tvThisMonthExams.setText(String.valueOf(thisMonth));
-                    int avg = docs.isEmpty() ? 0 : progressSum / docs.size();
+                    int avg = total == 0 ? 0 : progressSum / total;
                     tvAvgProgress.setText(avg + "%");
 
-                    if (!docs.isEmpty()) {
-                        DocumentSnapshot first = docs.get(0);
-                        String firstTitle = first.getString("title");
-                        Long firstDate = first.getLong("dateMillis");
-                        tvNextExamDetail.setText((firstTitle == null ? "Upcoming Exam" : firstTitle)
-                                + "\n" + formatDate(firstDate));
-                        long days = firstDate == null ? 0 : Math.max(0L,
-                                (firstDate - System.currentTimeMillis()) / (1000L * 60L * 60L * 24L));
-                        tvNextExamDays.setText(days + " Days");
-                    } else {
-                        tvNextExamDetail.setText("No exams added yet");
+                    if (firstDate == null) {
+                        tvNextExamDetail.setText("No exams added");
                         tvNextExamDays.setText("0 Days");
->>>>>>> 58c259c (new changes)
-                    }
-                })
-                .addOnFailureListener(e -> Log.e(TAG, "Failed to fetch exams", e));
-    }
-
-<<<<<<< HEAD
-    private void addExamCard(String title, Long examDateMillis, int progress) {
-        LinearLayout card = new LinearLayout(this);
-        card.setOrientation(LinearLayout.VERTICAL);
-        card.setPadding(30, 30, 30, 30);
-        card.setBackgroundResource(R.drawable.card_purple);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.setMargins(0, 16, 0, 0);
-        card.setLayoutParams(params);
-
-        TextView titleTv = new TextView(this);
-        titleTv.setText(title);
-        titleTv.setTextSize(16f);
-        titleTv.setTypeface(null, android.graphics.Typeface.BOLD);
-        TextView dateTv = new TextView(this);
-        dateTv.setText(examDateMillis == null ? "Date not set" : formatDate(examDateMillis));
-        ProgressBar progressBar = new ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal);
-        progressBar.setMax(100);
-        progressBar.setProgress(Math.max(0, Math.min(progress, 100)));
-
-        card.addView(titleTv);
-        card.addView(dateTv);
-        card.addView(progressBar);
-        examListContainer.addView(card);
-    }
-
-    private String formatDate(long time) {
-        return new SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(new Date(time));
-=======
-    private void observeExamsRealtime() {
-        examsListener = firestore.collection("exams")
-                .whereEqualTo("uid", uid)
-                .orderBy("dateMillis")
-                .addSnapshotListener((query, e) -> {
-                    if (e != null) {
-                        Log.e(TAG, "Realtime exam listener failed", e);
-                        return;
-                    }
-                    if (query == null) {
-                        Log.e(TAG, "Realtime exam query null");
-                        return;
-                    }
-                    List<DocumentSnapshot> docs = query.getDocuments();
-                    examListContainer.removeAllViews();
-                    int thisMonth = 0;
-                    int progressSum = 0;
-                    Calendar now = Calendar.getInstance();
-                    for (int i = 0; i < docs.size(); i++) {
-                        DocumentSnapshot doc = docs.get(i);
-                        String title = doc.getString("title");
-                        Long dateMillis = doc.getLong("dateMillis");
-                        Long progress = doc.getLong("progress");
-                        int progressVal = progress == null ? 0 : progress.intValue();
-                        progressSum += progressVal;
-                        if (dateMillis != null) {
-                            Calendar c = Calendar.getInstance();
-                            c.setTimeInMillis(dateMillis);
-                            if (c.get(Calendar.MONTH) == now.get(Calendar.MONTH)
-                                    && c.get(Calendar.YEAR) == now.get(Calendar.YEAR)) {
-                                thisMonth++;
-                            }
-                        }
-                        addExamCard(title == null ? "Untitled Exam" : title, dateMillis, progressVal);
-                    }
-                    tvTotalExams.setText(String.valueOf(docs.size()));
-                    tvThisMonthExams.setText(String.valueOf(thisMonth));
-                    int avg = docs.isEmpty() ? 0 : progressSum / docs.size();
-                    tvAvgProgress.setText(avg + "%");
-                    if (!docs.isEmpty()) {
-                        DocumentSnapshot first = docs.get(0);
-                        String firstTitle = first.getString("title");
-                        Long firstDate = first.getLong("dateMillis");
-                        tvNextExamDetail.setText((firstTitle == null ? "Upcoming Exam" : firstTitle)
-                                + "\n" + formatDate(firstDate));
-                        long days = firstDate == null ? 0 : Math.max(0L,
-                                (firstDate - System.currentTimeMillis()) / (1000L * 60L * 60L * 24L));
-                        tvNextExamDays.setText(days + " Days");
                     } else {
-                        tvNextExamDetail.setText("No exams added yet");
-                        tvNextExamDays.setText("0 Days");
+                        long days = Math.max(0,
+                                (firstDate - System.currentTimeMillis()) / (1000 * 60 * 60 * 24));
+
+                        tvNextExamDetail.setText(firstTitle + "\n" + formatDate(firstDate));
+                        tvNextExamDays.setText(days + " Days");
                     }
-                    Log.d(TAG, "Exam UI updated count=" + docs.size());
                 });
     }
 
-    private void addExamCard(String title, Long dateMillis, int progress) {
+    private void addExamCard(String title, Long date, int progress) {
+
         LinearLayout card = new LinearLayout(this);
         card.setOrientation(LinearLayout.VERTICAL);
-        card.setPadding(14, 14, 14, 14);
-        card.setBackgroundResource(R.drawable.card_purple);
+        int cardPadding = dpToPx(16);
+        card.setPadding(cardPadding, cardPadding, cardPadding, cardPadding);
+        card.setBackgroundResource(cardDrawables[random.nextInt(cardDrawables.length)]);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.setMargins(0, 10, 0, 0);
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        params.setMargins(dpToPx(24), dpToPx(14), dpToPx(24), 0);
         card.setLayoutParams(params);
 
-        TextView titleView = new TextView(this);
-        titleView.setText(title);
-        titleView.setTextSize(16f);
-        titleView.setTypeface(null, android.graphics.Typeface.BOLD);
+        TextView tvTitle = new TextView(this);
+        tvTitle.setText(title);
+        tvTitle.setTypeface(null, android.graphics.Typeface.BOLD);
+        tvTitle.setTextSize(15f);
 
-        TextView dateView = new TextView(this);
-        dateView.setText(formatDate(dateMillis));
-        dateView.setTextSize(12f);
+        TextView tvDate = new TextView(this);
+        tvDate.setText(formatDate(date));
+        tvDate.setTextSize(13f);
 
-        TextView progressView = new TextView(this);
-        progressView.setText("Preparation Progress: " + progress + "%");
-        progressView.setTextSize(12f);
+        TextView tvProgress = new TextView(this);
+        tvProgress.setText("Progress: " + progress + "%");
+        tvProgress.setPadding(0, 6, 0, 6);
 
-        card.addView(titleView);
-        card.addView(dateView);
-        card.addView(progressView);
+        ProgressBar progressBar = new ProgressBar(this, null,
+                android.R.attr.progressBarStyleHorizontal);
+        progressBar.setMax(100);
+        progressBar.setProgress(Math.max(0, Math.min(100, progress)));
+        progressBar.setProgressDrawable(getDrawable(R.drawable.progress_bar));
+
+        card.addView(tvTitle);
+        card.addView(tvDate);
+        card.addView(tvProgress);
+        card.addView(progressBar);
+
         examListContainer.addView(card);
     }
 
+    private void navigateToLanding() {
+        Intent intent = new Intent(this, LandingActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
+    }
+
+    private int dpToPx(int dp) {
+        return Math.round(dp * getResources().getDisplayMetrics().density);
+    }
+
     private String formatDate(Long millis) {
-        if (millis == null) return "Date not set";
+        if (millis == null) return "No date";
         return new SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(millis);
->>>>>>> 58c259c (new changes)
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (listener != null) listener.remove();
     }
 }

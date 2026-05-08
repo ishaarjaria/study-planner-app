@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F7">
+    android:background="@color/screen_background">
 
     <!-- 🔽 SCROLLABLE CONTENT -->
     <ScrollView
@@ -17,6 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
+            android:id="@+id/notesContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -39,28 +40,27 @@
                 android:textColor="#777777"
                 android:layout_marginBottom="16dp"/>
 
-            <!-- SEARCH -->
-            <LinearLayout
+            <EditText
+                android:id="@+id/etQuickNote"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
+                android:hint="Tap Add Note to create a note"
+                android:enabled="false"
+                android:focusable="false"
+                android:background="@drawable/bg_card_white"
                 android:paddingHorizontal="14dp"
-                android:background="@drawable/bg_card_white">
+                android:textSize="14sp"/>
 
-                <ImageView
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:src="@android:drawable/ic_menu_search"/>
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Search notes..."
-                    android:background="@null"
-                    android:textSize="14sp"
-                    android:paddingStart="10dp"/>
-            </LinearLayout>
+            <Button
+                android:id="@+id/btnSaveNote"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginTop="10dp"
+                android:text="Add Note"
+                android:textAllCaps="false"
+                android:background="@drawable/bg_button"
+                android:backgroundTint="@null"
+                android:textColor="#FFFFFF" />
 
             <!-- FILTERS -->
             <HorizontalScrollView
@@ -223,242 +223,11 @@
                 android:layout_marginTop="22dp"
                 android:layout_marginBottom="10dp"/>
 
-            <!-- NOTE CARD TEMPLATE -->
-
-            <!-- QUADRATIC -->
             <LinearLayout
+                android:id="@+id/notesListContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@drawable/card_purple"
-                android:padding="14dp"
-                android:layout_marginBottom="12dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Quadratic Equations"
-                        android:textStyle="bold"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Mar 10"
-                        android:textSize="11sp"/>
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Important formulas: ax² + bx + c = 0, Discriminant = b² - 4ac..."
-                    android:textSize="12sp"
-                    android:textColor="#666666"
-                    android:layout_marginTop="6dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:text="Mathematics"
-                    android:textSize="11sp"
-                    android:gravity="center"
-                    android:paddingHorizontal="12dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/bg_card_white"/>
-            </LinearLayout>
-
-            <!-- NEWTON -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@drawable/card_blue"
-                android:padding="14dp"
-                android:layout_marginBottom="12dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Newton’s Laws of Motion"
-                        android:textStyle="bold"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Mar 9"
-                        android:textSize="11sp"/>
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="1st Law: Object in motion stays in motion unless acted upon..."
-                    android:textSize="12sp"
-                    android:textColor="#666666"
-                    android:layout_marginTop="6dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:text="Physics"
-                    android:textSize="11sp"
-                    android:gravity="center"
-                    android:paddingHorizontal="12dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/bg_card_white"/>
-            </LinearLayout>
-
-            <!-- CHEMISTRY -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@drawable/card_green"
-                android:padding="14dp"
-                android:layout_marginBottom="12dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Periodic Table Trends"
-                        android:textStyle="bold"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Mar 8"
-                        android:textSize="11sp"/>
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Atomic radius decreases across period, increases down group..."
-                    android:textSize="12sp"
-                    android:textColor="#666666"
-                    android:layout_marginTop="6dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:text="Chemistry"
-                    android:textSize="11sp"
-                    android:gravity="center"
-                    android:paddingHorizontal="12dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/bg_card_white"/>
-            </LinearLayout>
-
-            <!-- ENGLISH -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@drawable/card_red"
-                android:padding="14dp"
-                android:layout_marginBottom="12dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Shakespeare Themes"
-                        android:textStyle="bold"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Mar 7"
-                        android:textSize="11sp"/>
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Romeo and Juliet: Love vs Hate, Fate vs. Free Will..."
-                    android:textSize="12sp"
-                    android:textColor="#666666"
-                    android:layout_marginTop="6dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:text="English"
-                    android:textSize="11sp"
-                    android:gravity="center"
-                    android:paddingHorizontal="12dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/bg_card_white"/>
-            </LinearLayout>
-
-            <!-- HISTORY -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@drawable/card_pink"
-                android:padding="14dp"
-                android:layout_marginBottom="12dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="World War II Timeline"
-                        android:textStyle="bold"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Mar 6"
-                        android:textSize="11sp"/>
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="1939: Germany invades Poland, 1941: Pearl Harbor..."
-                    android:textSize="12sp"
-                    android:textColor="#666666"
-                    android:layout_marginTop="6dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:text="History"
-                    android:textSize="11sp"
-                    android:gravity="center"
-                    android:paddingHorizontal="12dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/bg_card_white"/>
-            </LinearLayout>
+                android:orientation="vertical" />
 
         </LinearLayout>
     </ScrollView>
@@ -480,14 +249,14 @@
             android:layout_height="45dp"
             android:text="← Back to Screen Navigator"
             android:gravity="center"
-            android:background="#D6D4F5"/>
+            android:background="@color/back_strip_background"/>
 
         <!-- Bottom Nav -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:orientation="horizontal"
-            android:background="#FFFFFF"
+            android:background="@color/bottom_nav_background"
             android:weightSum="5">
 
             <!-- Dashboard -->

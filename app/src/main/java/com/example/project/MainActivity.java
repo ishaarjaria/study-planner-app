@@ -19,19 +19,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-<<<<<<< HEAD
-            Class<?> next = FirebaseAuth.getInstance().getCurrentUser() == null
-                    ? LoginActivity.class
-                    : DashboardActivity.class;
-            Intent intent = new Intent(MainActivity.this, next);
-=======
-            Class<?> destination = FirebaseAuth.getInstance().getCurrentUser() != null
+
+            Class<?> next = FirebaseAuth.getInstance().getCurrentUser() != null
                     ? DashboardActivity.class
                     : LoginActivity.class;
-            Intent intent = new Intent(MainActivity.this, destination);
->>>>>>> 58c259c (new changes)
+
+            Intent intent = new Intent(MainActivity.this, next);
             startActivity(intent);
             finish();
+
         }, SPLASH_TIME);
     }
 }

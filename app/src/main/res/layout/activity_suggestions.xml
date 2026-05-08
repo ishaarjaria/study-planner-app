@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F7">
+    android:background="@color/screen_background">
 
     <!-- 🔽 SCROLLABLE CONTENT -->
     <ScrollView
@@ -17,6 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
+            android:id="@+id/suggestionsContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -178,6 +179,12 @@
                 android:textSize="16sp"
                 android:layout_marginTop="22dp"
                 android:layout_marginBottom="12dp"/>
+
+            <LinearLayout
+                android:id="@+id/suggestionsListContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
 
             <!-- CARD 1 -->
             <LinearLayout
@@ -393,14 +400,14 @@
             android:layout_height="45dp"
             android:text="← Back to Screen Navigator"
             android:gravity="center"
-            android:background="#D6D4F5"/>
+            android:background="@color/back_strip_background"/>
 
         <!-- Bottom Nav -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:orientation="horizontal"
-            android:background="#FFFFFF"
+            android:background="@color/bottom_nav_background"
             android:weightSum="5">
 
             <!-- Dashboard -->

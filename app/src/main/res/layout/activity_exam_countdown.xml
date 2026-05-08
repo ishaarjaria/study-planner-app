@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F7">
+    android:background="@color/screen_background">
 
     <!-- SCROLL -->
     <ScrollView
@@ -183,191 +183,6 @@
                 android:backgroundTint="@null"
                 android:textColor="#FFFFFF" />
 
-            <!-- EXAM CARD TEMPLATE -->
-            <!-- Mathematics -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/card_purple"
-                android:padding="14dp"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Mathematics Finals  Soon"
-                    android:textStyle="bold"
-                    android:textColor="#2d2d3a" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Mar 24, 2026 • 12 days left"
-                    android:textSize="12sp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Preparation Progress"
-                    android:textSize="12sp"
-                    android:layout_marginTop="6dp"/>
-
-                <ProgressBar
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="6dp"
-                    android:progress="65"
-                    android:max="100"
-                    android:progressDrawable="@drawable/progress_bar"/>
-            </LinearLayout>
-
-            <!-- Physics -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/card_blue"
-                android:padding="14dp"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Physics Mid-term  Upcoming"
-                    android:textStyle="bold"
-                    android:textColor="#2d2d3a"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Mar 28, 2026 • 16 days left"
-                    android:textSize="12sp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Preparation Progress"
-                    android:textSize="12sp"
-                    android:layout_marginTop="6dp"/>
-
-                <ProgressBar
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="6dp"
-                    android:progress="45"
-                    android:max="100"
-                    android:progressDrawable="@drawable/progress_bar"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@drawable/card_green"
-                android:padding="14dp"
-                android:layout_marginTop="10dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Chemistry Test  Upcoming"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Apr 2, 2026 • 21 days left"
-                    android:textSize="12sp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Preparation Progress"
-                    android:textSize="12sp"
-                    android:layout_marginTop="6dp"/>
-
-                <ProgressBar
-                    android:layout_width="match_parent"
-                    android:layout_height="6dp"
-                    android:progress="30"
-                    android:max="100"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:progressDrawable="@drawable/progress_bar"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@drawable/card_red"
-                android:padding="14dp"
-                android:layout_marginTop="10dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="English Literature  Upcoming"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Apr 5, 2026 • 24 days left"
-                    android:textSize="12sp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Preparation Progress"
-                    android:textSize="12sp"
-                    android:layout_marginTop="6dp"/>
-
-                <ProgressBar
-                    android:layout_width="match_parent"
-                    android:layout_height="6dp"
-                    android:progress="55"
-                    android:max="100"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:progressDrawable="@drawable/progress_bar"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@drawable/card_pink"
-                android:padding="14dp"
-                android:layout_marginTop="10dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="History Finals  Upcoming"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Apr 10, 2026 • 29 days left"
-                    android:textSize="12sp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Preparation Progress"
-                    android:textSize="12sp"
-                    android:layout_marginTop="6dp"/>
-
-                <ProgressBar
-                    android:layout_width="match_parent"
-                    android:layout_height="6dp"
-                    android:progress="20"
-                    android:max="100"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:progressDrawable="@drawable/progress_bar"/>
-            </LinearLayout>
-
         </LinearLayout>
     </ScrollView>
 
@@ -387,14 +202,14 @@
             android:layout_height="45dp"
             android:text="← Back to Screen Navigator"
             android:gravity="center"
-            android:background="#D6D4F5"/>
+            android:background="@color/back_strip_background"/>
 
         <!-- Bottom Nav -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:orientation="horizontal"
-            android:background="#FFFFFF"
+            android:background="@color/bottom_nav_background"
             android:weightSum="5">
 
             <!-- Dashboard -->

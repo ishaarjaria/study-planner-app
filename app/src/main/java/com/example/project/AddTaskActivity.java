@@ -1,5 +1,6 @@
 package com.example.project;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -11,158 +12,133 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
-<<<<<<< HEAD
-import com.google.firebase.auth.FirebaseUser;
-=======
->>>>>>> 58c259c (new changes)
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class AddTaskActivity extends AppCompatActivity {
+
     private static final String TAG = "AddTaskActivity";
 
-    EditText etTask;
-    EditText etDate;
-    Spinner spPriority;
-    Button btnSave;
-<<<<<<< HEAD
+    private EditText etTask, etDate;
+    private Spinner spPriority;
+    private Button btnSave;
+
     private FirebaseFirestore firestore;
-    private FirebaseUser currentUser;
-=======
-    FirebaseFirestore firestore;
-    private static final String TAG = "AddTaskActivity";
->>>>>>> 58c259c (new changes)
+    private String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
+
         firestore = FirebaseFirestore.getInstance();
-        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+            return;
+        }
+
+        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         etTask = findViewById(R.id.etTask);
         etDate = findViewById(R.id.etDate);
         spPriority = findViewById(R.id.spPriority);
         btnSave = findViewById(R.id.btnSave);
-<<<<<<< HEAD
-=======
-        firestore = FirebaseFirestore.getInstance();
+        etDate.setOnClickListener(v -> showDatePicker());
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+        // Spinner
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                this,
                 android.R.layout.simple_spinner_item,
-                new String[]{"Low", "Medium", "High"});
+                new String[]{"Low", "Medium", "High"}
+        );
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spPriority.setAdapter(adapter);
 
->>>>>>> 58c259c (new changes)
-        TextView btnBack = findViewById(R.id.btnBack);
-        LinearLayout navDashboard = findViewById(R.id.navDashboard);
-        LinearLayout navCalendar = findViewById(R.id.navCalendar);
-        LinearLayout navTasks = findViewById(R.id.navTasks);
-        LinearLayout navProgress = findViewById(R.id.navProgress);
-        LinearLayout navProfile = findViewById(R.id.navProfile);
+        // Save
+        btnSave.setOnClickListener(v -> saveTask());
 
-<<<<<<< HEAD
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_dropdown_item,
-                new String[]{"High", "Medium", "Low"});
-        spPriority.setAdapter(adapter);
+        // Navigation
+        findViewById(R.id.btnBack).setOnClickListener(v -> navigateToLanding());
 
-        btnSave.setOnClickListener(v -> {
-            String task = etTask.getText().toString().trim();
-            String date = etDate.getText().toString().trim();
-            String priority = spPriority.getSelectedItem() == null ? "Medium" : spPriority.getSelectedItem().toString();
+        findViewById(R.id.navDashboard).setOnClickListener(v ->
+                startActivity(new Intent(this, DashboardActivity.class)));
 
-            if (TextUtils.isEmpty(task)) {
-                etTask.setError("Task is required");
-                return;
-            }
-            if (currentUser == null) {
-                Toast.makeText(this, "Please login again", Toast.LENGTH_SHORT).show();
-                return;
-            }
+        findViewById(R.id.navCalendar).setOnClickListener(v ->
+                startActivity(new Intent(this, CalendarActivity.class)));
 
-            Map<String, Object> taskData = new HashMap<>();
-            taskData.put("title", task);
-            taskData.put("date", date);
-            taskData.put("priority", priority);
-            taskData.put("completed", false);
-            taskData.put("createdAt", System.currentTimeMillis());
+        findViewById(R.id.navTasks).setOnClickListener(v -> finish());
 
-            firestore.collection("users")
-                    .document(currentUser.getUid())
-                    .collection("tasks")
-                    .add(taskData)
-                    .addOnSuccessListener(documentReference -> {
-                        Intent intent = new Intent();
-                        intent.putExtra("task", task);
-                        setResult(RESULT_OK, intent);
-                        Toast.makeText(this, "Task saved", Toast.LENGTH_SHORT).show();
-                        finish();
-                    })
-                    .addOnFailureListener(e -> {
-                        Log.e(TAG, "Task save failed", e);
-                        Toast.makeText(this, "Failed to save task", Toast.LENGTH_SHORT).show();
-                    });
-=======
-        btnBack.setOnClickListener(v -> finish());
-        navDashboard.setOnClickListener(v -> startActivity(new Intent(this, DashboardActivity.class)));
-        navCalendar.setOnClickListener(v -> startActivity(new Intent(this, CalendarActivity.class)));
-        navTasks.setOnClickListener(v -> startActivity(new Intent(this, TasksActivity.class)));
-        navProgress.setOnClickListener(v -> startActivity(new Intent(this, ProgressActivity.class)));
-        navProfile.setOnClickListener(v -> startActivity(new Intent(this, ProfileActivity.class)));
+        findViewById(R.id.navProgress).setOnClickListener(v ->
+                startActivity(new Intent(this, ProgressActivity.class)));
 
-        btnSave.setOnClickListener(v -> {
-            if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-                Toast.makeText(this, "Session expired. Please login again.", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(this, LoginActivity.class));
-                finish();
-                return;
-            }
+        findViewById(R.id.navProfile).setOnClickListener(v ->
+                startActivity(new Intent(this, ProfileActivity.class)));
+    }
 
-            String task = etTask.getText().toString().trim();
-            String dueDate = etDate.getText().toString().trim();
-            String priority = spPriority.getSelectedItem() == null ? "Medium" : spPriority.getSelectedItem().toString();
+    private void showDatePicker() {
+        Calendar now = Calendar.getInstance();
+        DatePickerDialog dialog = new DatePickerDialog(this,
+                (view, year, month, dayOfMonth) -> {
+                    Calendar selected = Calendar.getInstance();
+                    selected.set(year, month, dayOfMonth, 0, 0, 0);
+                    String formattedDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                            .format(selected.getTime());
+                    etDate.setText(formattedDate);
+                },
+                now.get(Calendar.YEAR),
+                now.get(Calendar.MONTH),
+                now.get(Calendar.DAY_OF_MONTH));
+        dialog.show();
+    }
 
-            if (TextUtils.isEmpty(task)) {
-                etTask.setError("Enter task");
-                return;
-            }
+    private void saveTask() {
 
-            Map<String, Object> payload = new HashMap<>();
-            payload.put("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
-            payload.put("title", task);
-            payload.put("dueDate", dueDate);
-            payload.put("priority", priority);
-            payload.put("completed", false);
-            payload.put("createdAt", System.currentTimeMillis());
+        String task = etTask.getText().toString().trim();
+        String date = etDate.getText().toString().trim();
+        String priority = spPriority.getSelectedItem().toString();
 
-            firestore.collection("tasks").add(payload).addOnSuccessListener(ref -> {
-                Intent intent = new Intent();
-                intent.putExtra("task", task);
-                intent.putExtra("taskId", ref.getId());
-                intent.putExtra("priority", priority);
-                intent.putExtra("dueDate", dueDate);
-                setResult(RESULT_OK, intent);
-                finish();
-            }).addOnFailureListener(e -> {
-                Log.e(TAG, "Failed to save task", e);
-                Toast.makeText(this, "Failed to save task", Toast.LENGTH_SHORT).show();
-            });
+        if (TextUtils.isEmpty(task)) {
+            etTask.setError("Enter task");
+            return;
+        }
 
->>>>>>> 58c259c (new changes)
-        });
+        Map<String, Object> data = new HashMap<>();
+        data.put("title", task);
+        data.put("date", date);
+        data.put("priority", priority);
+        data.put("completed", false);
+        data.put("createdAt", System.currentTimeMillis());
 
-        btnBack.setOnClickListener(v -> finish());
-        navDashboard.setOnClickListener(v -> startActivity(new Intent(this, DashboardActivity.class)));
-        navCalendar.setOnClickListener(v -> startActivity(new Intent(this, CalendarActivity.class)));
-        navTasks.setOnClickListener(v -> finish());
-        navProgress.setOnClickListener(v -> startActivity(new Intent(this, ProgressActivity.class)));
-        navProfile.setOnClickListener(v -> startActivity(new Intent(this, ProfileActivity.class)));
+        firestore.collection("users")
+                .document(uid)
+                .collection("tasks")
+                .add(data)
+                .addOnSuccessListener(doc -> {
+                    Toast.makeText(this, "Task saved", Toast.LENGTH_SHORT).show();
+                    setResult(RESULT_OK);
+                    finish();
+                })
+                .addOnFailureListener(e -> {
+                    Log.e(TAG, "Save failed", e);
+                    Toast.makeText(this, "Failed to save task", Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void navigateToLanding() {
+        Intent intent = new Intent(this, LandingActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
     }
 }

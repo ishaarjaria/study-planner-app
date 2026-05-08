@@ -13,13 +13,15 @@ public class StudyTimerActivity extends AppCompatActivity {
 
     TextView tvTimer, tvSessions, tvMinutes;
     ImageButton btnStart, btnReset;
+    TextView btnMode25, btnMode15, btnModeBreak5;
 
     LinearLayout navDashboard, navCalendar, navTasks, navProgress, navProfile;
     TextView btnBack;
 
     CountDownTimer timer;
 
-    long timeLeft = 1500000; // 25 min
+    long selectedDuration = 1500000;
+    long timeLeft = 1500000;
     boolean isRunning = false;
 
     int sessions = 0;
@@ -36,6 +38,9 @@ public class StudyTimerActivity extends AppCompatActivity {
 
         btnStart = findViewById(R.id.btnStart);
         btnReset = findViewById(R.id.btnReset);
+        btnMode25 = findViewById(R.id.btnMode25);
+        btnMode15 = findViewById(R.id.btnMode15);
+        btnModeBreak5 = findViewById(R.id.btnModeBreak5);
 
         btnBack = findViewById(R.id.btnBack);
 
@@ -51,10 +56,13 @@ public class StudyTimerActivity extends AppCompatActivity {
         });
 
         btnReset.setOnClickListener(v -> resetTimer());
+        btnMode25.setOnClickListener(v -> setMode(25 * 60 * 1000L));
+        btnMode15.setOnClickListener(v -> setMode(15 * 60 * 1000L));
+        btnModeBreak5.setOnClickListener(v -> setMode(5 * 60 * 1000L));
 
         updateTimerText();
         // Back
-        btnBack.setOnClickListener(v -> finish());
+        btnBack.setOnClickListener(v -> navigateToLanding());
 
         // Navigation
         navDashboard.setOnClickListener(v ->
@@ -63,7 +71,8 @@ public class StudyTimerActivity extends AppCompatActivity {
         navCalendar.setOnClickListener(v ->
                 startActivity(new Intent(this, CalendarActivity.class)));
 
-        navTasks.setOnClickListener(v -> {});
+        navTasks.setOnClickListener(v ->
+                startActivity(new Intent(this, TasksActivity.class)));
 
         navProgress.setOnClickListener(v ->
                 startActivity(new Intent(this, ProgressActivity.class)));
@@ -73,6 +82,9 @@ public class StudyTimerActivity extends AppCompatActivity {
     }
 
     private void startTimer() {
+        if (timer != null) {
+            timer.cancel();
+        }
         timer = new CountDownTimer(timeLeft, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -85,7 +97,9 @@ public class StudyTimerActivity extends AppCompatActivity {
                 isRunning = false;
 
                 sessions++;
-                minutes += 25;
+                minutes += (int) (selectedDuration / 60000L);
+                timeLeft = selectedDuration;
+                updateTimerText();
 
                 tvSessions.setText(String.valueOf(sessions));
                 tvMinutes.setText(String.valueOf(minutes));
@@ -98,9 +112,14 @@ public class StudyTimerActivity extends AppCompatActivity {
     private void resetTimer() {
         if (timer != null) timer.cancel();
 
-        timeLeft = 1500000;
+        timeLeft = selectedDuration;
         isRunning = false;
         updateTimerText();
+    }
+
+    private void setMode(long durationMillis) {
+        selectedDuration = durationMillis;
+        resetTimer();
     }
 
     private void updateTimerText() {
@@ -109,5 +128,12 @@ public class StudyTimerActivity extends AppCompatActivity {
 
         String time = String.format("%02d:%02d", minutesVal, seconds);
         tvTimer.setText(time);
+    }
+
+    private void navigateToLanding() {
+        Intent intent = new Intent(this, LandingActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
     }
 }

@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F7"
+    android:background="@color/screen_background"
     android:paddingTop="20dp">
 
     <!-- TITLE -->
@@ -108,6 +108,7 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <TextView
+            android:id="@+id/btnMode25"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="25 min"
@@ -116,6 +117,7 @@
             android:layout_marginEnd="10dp"/>
 
         <TextView
+            android:id="@+id/btnMode15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="15 min"
@@ -124,6 +126,7 @@
             android:layout_marginEnd="10dp"/>
 
         <TextView
+            android:id="@+id/btnModeBreak5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="5 min break"
@@ -225,13 +228,13 @@
             android:layout_height="45dp"
             android:text="← Back to Screen Navigator"
             android:gravity="center"
-            android:background="#D6D4F5"/>
+            android:background="@color/back_strip_background"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:orientation="horizontal"
-            android:background="#FFFFFF"
+            android:background="@color/bottom_nav_background"
             android:weightSum="5">
 
             <!-- Dashboard -->

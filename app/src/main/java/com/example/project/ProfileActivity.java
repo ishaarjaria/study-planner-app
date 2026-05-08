@@ -12,15 +12,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
 
 public class ProfileActivity extends AppCompatActivity {
 
     LinearLayout navDashboard, navCalendar, navTasks, navProgress, navProfile;
-    TextView btnBack, btnLogout, btnAccount, btnNotifications, btnEdit, btnSupport;
+    TextView btnBack, btnLogout, btnAccount, btnNotifications, btnEdit, btnSupport, tvProfileName, tvProfileEmail;
     Switch darkModeSwitch;
 
     SharedPreferences prefs;
     private static final String TAG = "ProfileActivity";
+    private ListenerRegistration profileListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +55,8 @@ public class ProfileActivity extends AppCompatActivity {
         btnNotifications = findViewById(R.id.btnNotifications);
         btnEdit = findViewById(R.id.btnEdit);
         btnSupport = findViewById(R.id.btnSupport);
+        tvProfileName = findViewById(R.id.tvProfileName);
+        tvProfileEmail = findViewById(R.id.tvProfileEmail);
 
         darkModeSwitch = findViewById(R.id.switchDarkMode);
 
@@ -73,25 +78,10 @@ public class ProfileActivity extends AppCompatActivity {
             Log.d(TAG, "Dark mode toggled: " + isChecked);
         });
 
-        // 🔹 NAVIGATION
-        navDashboard.setOnClickListener(v ->
-                startActivity(new Intent(this, DashboardActivity.class)));
-
-        navCalendar.setOnClickListener(v ->
-                startActivity(new Intent(this, CalendarActivity.class)));
-
-        navTasks.setOnClickListener(v ->
-                startActivity(new Intent(this, TasksActivity.class)));
-
-        navProgress.setOnClickListener(v ->
-                startActivity(new Intent(this, ProgressActivity.class)));
-
-        navProfile.setOnClickListener(v -> {
-            // already here
-        });
+        setupBottomNavigation();
 
         // 🔹 BACK
-        btnBack.setOnClickListener(v -> finish());
+        btnBack.setOnClickListener(v -> navigateToLanding());
 
         // 🔹 SETTINGS BUTTONS (you can create these pages later)
         btnAccount.setOnClickListener(v ->
@@ -113,5 +103,59 @@ public class ProfileActivity extends AppCompatActivity {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         });
+
+        observeProfile();
+    }
+
+    private void setupBottomNavigation() {
+        setNavClick(navDashboard, DashboardActivity.class, false);
+        setNavClick(navCalendar, CalendarActivity.class, false);
+        setNavClick(navTasks, TasksActivity.class, false);
+        setNavClick(navProgress, ProgressActivity.class, false);
+        setNavClick(navProfile, ProfileActivity.class, true);
+    }
+
+    private void setNavClick(LinearLayout navView, Class<?> target, boolean isCurrentPage) {
+        if (navView == null) {
+            Log.e(TAG, "Navigation view is missing for " + target.getSimpleName());
+            return;
+        }
+        navView.setClickable(true);
+        navView.setFocusable(true);
+        navView.setOnClickListener(v -> {
+            if (!isCurrentPage) {
+                startActivity(new Intent(this, target));
+            }
+        });
+    }
+
+    private void navigateToLanding() {
+        Intent intent = new Intent(this, LandingActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
+    }
+
+    private void observeProfile() {
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) return;
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        profileListener = FirebaseFirestore.getInstance().collection("users")
+                .document(uid)
+                .addSnapshotListener((doc, e) -> {
+                    if (e != null || doc == null || !doc.exists()) {
+                        Log.e(TAG, "Failed to load profile data", e);
+                        return;
+                    }
+                    String name = doc.getString("name");
+                    String email = doc.getString("email");
+                    tvProfileName.setText(name == null || name.trim().isEmpty() ? "Student" : name);
+                    tvProfileEmail.setText(email == null || email.trim().isEmpty() ? "No email set" : email);
+                });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (profileListener != null) profileListener.remove();
     }
 }

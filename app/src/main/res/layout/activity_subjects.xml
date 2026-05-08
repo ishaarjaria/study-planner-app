@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F7">
+    android:background="@color/screen_background">
 
     <!-- 🔽 SCROLLABLE CONTENT -->
     <ScrollView
@@ -49,24 +49,27 @@
                 android:layout_marginBottom="16dp">
 
                 <TextView
+                    android:id="@+id/tvSubjectsCount"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:layout_weight="1"
-                    android:text="5\nSubjects"
+                    android:text="0\nSubjects"
                     android:gravity="center"/>
 
                 <TextView
+                    android:id="@+id/tvAvgProgress"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:layout_weight="1"
-                    android:text="73%\nAvg Progress"
+                    android:text="0%\nAvg Progress"
                     android:gravity="center"/>
 
                 <TextView
+                    android:id="@+id/tvTotalHours"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:layout_weight="1"
-                    android:text="79h\nTotal Hours"
+                    android:text="0h\nTotal Hours"
                     android:gravity="center"/>
             </LinearLayout>
 
@@ -78,187 +81,12 @@
                 android:textStyle="bold"
                 android:layout_marginBottom="10dp"/>
 
-            <!-- SUBJECT 1 -->
             <LinearLayout
                 android:id="@+id/subjectsContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/card_purple"
-                android:padding="16dp"
                 android:orientation="vertical"
-                android:layout_marginBottom="12dp">
-
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:text="Mathematics"
-                    android:textStyle="bold"/>
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:background="@drawable/card_pink"
-                    android:text="Hard"
-                    android:textSize="12sp"/>
-
-                <!-- Progress bar -->
-                <ProgressBar
-                    android:layout_width="match_parent"
-                    android:layout_height="6dp"
-                    android:progress="85"
-                    android:layout_marginTop="6dp"/>
-
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:text="Next Topic: Calculus Integration"
-                    android:textSize="12sp"/>
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:text="Study Time: 24h"
-                    android:textSize="12sp"/>
-            </LinearLayout>
-
-            <!-- SUBJECT 2 -->
-            <LinearLayout
-                android:id="@+id/subjectsContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/card_blue"
-                android:padding="16dp"
-                android:orientation="vertical"
-                android:layout_marginBottom="12dp">
-
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:text="Physics"
-                    android:textStyle="bold"/>
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:background="@drawable/card_yellow"
-                    android:text="Medium"
-                    android:textSize="12sp"/>
-
-                <ProgressBar
-                    android:layout_width="match_parent"
-                    android:layout_height="6dp"
-                    android:progress="70"
-                    android:layout_marginTop="6dp"/>
-
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:text="Next Topic: Electromagnetism"
-                    android:textSize="12sp"/>
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:text="Study Time: 18h"
-                    android:textSize="12sp"/>
-            </LinearLayout>
-
-            <!-- SUBJECT 3 -->
-            <LinearLayout
-                android:id="@+id/subjectsContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/card_green"
-                android:padding="16dp"
-                android:orientation="vertical"
-                android:layout_marginBottom="12dp">
-
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:text="Chemistry"
-                    android:textStyle="bold"/>
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:background="@drawable/card_yellow"
-                    android:text="Medium"
-                    android:textSize="12sp"/>
-
-                <ProgressBar
-                    android:layout_width="match_parent"
-                    android:layout_height="6dp"
-                    android:progress="65"
-                    android:layout_marginTop="6dp"/>
-
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:text="Next Topic: Organic Chemistry"
-                    android:textSize="12sp"/>
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:text="Study Time: 15h"
-                    android:textSize="12sp"/>
-            </LinearLayout>
-
-            <!-- SUBJECT 4 -->
-            <LinearLayout
-                android:id="@+id/subjectsContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/card_pink"
-                android:padding="16dp"
-                android:orientation="vertical"
-                android:layout_marginBottom="12dp">
-
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:text="English"
-                    android:textStyle="bold"/>
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:background="@drawable/card_green"
-                    android:text="Easy"
-                    android:textSize="12sp"/>
-
-                <ProgressBar
-                    android:layout_width="match_parent"
-                    android:layout_height="6dp"
-                    android:progress="80"
-                    android:layout_marginTop="6dp"/>
-
-                <TextView android:layout_height="wrap_content"
-                    android:layout_width="wrap_content" android:text="Next Topic: Poetry Analysis" android:textSize="12sp"/>
-                <TextView android:layout_height="wrap_content"
-                    android:layout_width="wrap_content" android:text="Study Time: 12h" android:textSize="12sp"/>
-            </LinearLayout>
-
-            <!-- SUBJECT 5 -->
-            <LinearLayout
-                android:id="@+id/subjectsContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/card_red"
-                android:padding="16dp"
-                android:orientation="vertical"
-                android:layout_marginBottom="20dp">
-
-                <TextView android:layout_height="wrap_content"
-                    android:layout_width="wrap_content" android:text="History" android:textStyle="bold"/>
-                <TextView android:layout_height="wrap_content"
-                    android:layout_width="wrap_content" android:background="@drawable/card_green" android:text="Easy" android:textSize="12sp"/>
-
-                <ProgressBar
-                    android:layout_width="match_parent"
-                    android:layout_height="6dp"
-                    android:progress="55"
-                    android:layout_marginTop="6dp"/>
-
-                <TextView android:layout_height="wrap_content"
-                    android:layout_width="wrap_content" android:text="Next Topic: Cold War Era" android:textSize="12sp"/>
-                <TextView android:layout_height="wrap_content"
-                    android:layout_width="wrap_content" android:text="Study Time: 10h" android:textSize="12sp"/>
-            </LinearLayout>
+                android:layout_marginBottom="20dp"/>
 
             <!-- ADD BUTTON -->
             <Button
@@ -283,9 +111,10 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <TextView
+            android:id="@+id/btnBack"
             android:text="← Back to Screen Navigator"
             android:gravity="center"
-            android:background="#D6D4F5"
+            android:background="@color/back_strip_background"
             android:layout_width="match_parent"
             android:layout_height="45dp"/>
 
@@ -299,7 +128,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
-                android:background="#FFFFFF"
+                android:background="@color/bottom_nav_background"
                 android:weightSum="5">
 
                 <!-- Dashboard -->

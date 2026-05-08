@@ -3,234 +3,172 @@ package com.example.project;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-<<<<<<< HEAD
-import android.view.ViewGroup;
-=======
->>>>>>> 58c259c (new changes)
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
-<<<<<<< HEAD
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-=======
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 
 import java.text.SimpleDateFormat;
-import java.util.List;
->>>>>>> 58c259c (new changes)
 import java.util.Locale;
 
 public class CalendarActivity extends AppCompatActivity {
+
     private static final String TAG = "CalendarActivity";
 
-    CalendarView calendarView;
-    TextView btnBack;
-    Button btnAddEvent;
-    LinearLayout eventListContainer;
-<<<<<<< HEAD
-=======
-    FirebaseFirestore firestore;
-    String uid;
-    ListenerRegistration eventsListener;
-    private static final String TAG = "CalendarActivity";
->>>>>>> 58c259c (new changes)
+    private CalendarView calendarView;
+    private LinearLayout eventListContainer;
+    private TextView btnBack;
 
-    LinearLayout navDashboard, navCalendar, navTasks, navProgress, navProfile;
     private FirebaseFirestore firestore;
-    private FirebaseUser currentUser;
+    private String uid;
+    private ListenerRegistration listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
+
         firestore = FirebaseFirestore.getInstance();
-<<<<<<< HEAD
-        currentUser = FirebaseAuth.getInstance().getCurrentUser();
-=======
-        uid = FirebaseAuth.getInstance().getCurrentUser() == null
-                ? null : FirebaseAuth.getInstance().getCurrentUser().getUid();
->>>>>>> 58c259c (new changes)
 
-        // 🔗 Link Views
-        calendarView = findViewById(R.id.calendarView);
-        btnBack = findViewById(R.id.btnBack);
-        btnAddEvent = findViewById(R.id.btnAddEvent);
-        eventListContainer = findViewById(R.id.eventListContainer);
-
-        navDashboard = findViewById(R.id.navDashboard);
-        navCalendar = findViewById(R.id.navCalendar);
-        navTasks = findViewById(R.id.navTasks);
-        navProgress = findViewById(R.id.navProgress);
-        navProfile = findViewById(R.id.navProfile);
-
-        // ✅ FIX: Set current date (solves 1970 problem)
-        calendarView.setDate(System.currentTimeMillis(), true, true);
-
-        // 📅 Date click listener
-        calendarView.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
-            Toast.makeText(this,
-                    "Selected: " + dayOfMonth + "/" + (month + 1) + "/" + year,
-                    Toast.LENGTH_SHORT).show();
-        });
-
-        // 🔙 Back button
-        btnBack.setOnClickListener(v -> finish());
-        btnAddEvent.setOnClickListener(v -> startActivity(new Intent(this, AddEventActivity.class)));
-
-        // 🔽 Bottom Navigation
-
-        navDashboard.setOnClickListener(v ->
-                startActivity(new Intent(this, DashboardActivity.class)));
-
-        navCalendar.setOnClickListener(v ->
-                Toast.makeText(this, "Already on Calendar", Toast.LENGTH_SHORT).show());
-
-        navTasks.setOnClickListener(v ->
-                startActivity(new Intent(this, TasksActivity.class)));
-
-        navProgress.setOnClickListener(v ->
-                startActivity(new Intent(this, ProgressActivity.class)));
-
-        navProfile.setOnClickListener(v ->
-                startActivity(new Intent(this, ProfileActivity.class)));
-
-        if (uid == null) {
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
+            return;
         }
+
+        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        calendarView = findViewById(R.id.calendarView);
+        eventListContainer = findViewById(R.id.eventListContainer);
+        Button btnAddEvent = findViewById(R.id.btnAddEvent);
+        btnBack = findViewById(R.id.btnBack);
+
+        // Fix 1970 bug
+        calendarView.setDate(System.currentTimeMillis(), true, true);
+
+        calendarView.setOnDateChangeListener((view, y, m, d) ->
+                Toast.makeText(this,
+                        "Selected: " + d + "/" + (m + 1) + "/" + y,
+                        Toast.LENGTH_SHORT).show());
+
+        btnAddEvent.setOnClickListener(v ->
+                startActivity(new Intent(this, AddEventActivity.class)));
+        btnBack.setOnClickListener(v -> navigateToLanding());
+
+        setupBottomNavigation();
+
+        observeEvents();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (uid != null && eventsListener == null) {
-            observeEventsRealtime();
+    private void setupBottomNavigation() {
+        setNavClick(R.id.navDashboard, DashboardActivity.class, false);
+        setNavClick(R.id.navCalendar, CalendarActivity.class, true);
+        setNavClick(R.id.navTasks, TasksActivity.class, false);
+        setNavClick(R.id.navProgress, ProgressActivity.class, false);
+        setNavClick(R.id.navProfile, ProfileActivity.class, false);
+    }
+
+    private void setNavClick(int viewId, Class<?> target, boolean isCurrentPage) {
+        android.view.View nav = findViewById(viewId);
+        if (nav == null) {
+            Log.e(TAG, "Missing nav view id: " + viewId);
+            return;
         }
+        nav.setClickable(true);
+        nav.setFocusable(true);
+        nav.setOnClickListener(v -> {
+            if (!isCurrentPage) {
+                startActivity(new Intent(this, target));
+            }
+        });
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (eventsListener != null) {
-            eventsListener.remove();
-            eventsListener = null;
-        }
-    }
-
-    private void loadEvents() {
-        firestore.collection("events")
-                .whereEqualTo("uid", uid)
-                .orderBy("dateMillis")
-                .get()
-                .addOnSuccessListener(query -> {
-                    eventListContainer.removeAllViews();
-                    List<DocumentSnapshot> docs = query.getDocuments();
-                    for (DocumentSnapshot doc : docs) {
-                        String title = doc.getString("title");
-                        Long date = doc.getLong("dateMillis");
-                        addEventCard(title == null ? "Untitled Event" : title, date);
-                    }
-                })
-                .addOnFailureListener(e -> Log.e(TAG, "Failed to load events", e));
-    }
-
-    private void observeEventsRealtime() {
-        eventsListener = firestore.collection("events")
-                .whereEqualTo("uid", uid)
-                .orderBy("dateMillis")
+    private void observeEvents() {
+        listener = firestore.collection("users")
+                .document(uid)
+                .collection("events")
                 .addSnapshotListener((query, e) -> {
-                    if (e != null) {
-                        Log.e(TAG, "Realtime events listener failed", e);
+
+                    if (e != null || query == null) {
+                        Log.e(TAG, "Error loading events", e);
                         return;
                     }
-                    if (query == null) {
-                        Log.e(TAG, "Realtime events query null");
-                        return;
-                    }
+
                     eventListContainer.removeAllViews();
-                    List<DocumentSnapshot> docs = query.getDocuments();
-                    for (DocumentSnapshot doc : docs) {
+
+                    for (DocumentSnapshot doc : query.getDocuments()) {
+
                         String title = doc.getString("title");
                         Long date = doc.getLong("dateMillis");
-                        addEventCard(title == null ? "Untitled Event" : title, date);
+
+                        addEventCard(
+                                title == null ? "Untitled Event" : title,
+                                date
+                        );
                     }
-                    Log.d(TAG, "Events updated in UI, count=" + docs.size());
                 });
     }
 
     private void addEventCard(String title, Long dateMillis) {
+
         LinearLayout card = new LinearLayout(this);
-        card.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT));
-        card.setPadding(16, 16, 16, 16);
-        LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) card.getLayoutParams();
-        lp.setMargins(0, 10, 0, 0);
-        card.setLayoutParams(lp);
+        card.setOrientation(LinearLayout.VERTICAL);
+        int cardPadding = dpToPx(16);
+        card.setPadding(cardPadding, cardPadding, cardPadding, cardPadding);
         card.setBackgroundResource(R.drawable.card_blue);
 
-        TextView tv = new TextView(this);
-        String dateText = dateMillis == null ? "Date not set"
-                : new SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(dateMillis);
-        tv.setText(title + "\n" + dateText);
-        card.addView(tv);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        params.setMargins(dpToPx(24), dpToPx(14), dpToPx(24), 0);
+        card.setLayoutParams(params);
+        card.setGravity(android.view.Gravity.CENTER_VERTICAL);
+
+        String dateText = dateMillis == null
+                ? "No date"
+                : new SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
+                .format(dateMillis);
+
+        TextView tvTitle = new TextView(this);
+        tvTitle.setText(title);
+        tvTitle.setTypeface(null, android.graphics.Typeface.BOLD);
+        tvTitle.setTextSize(15f);
+        tvTitle.setTextAlignment(TextView.TEXT_ALIGNMENT_VIEW_START);
+
+        TextView tvDate = new TextView(this);
+        tvDate.setText(dateText);
+        tvDate.setTextSize(13f);
+        tvDate.setPadding(0, dpToPx(6), 0, 0);
+        tvDate.setTextAlignment(TextView.TEXT_ALIGNMENT_VIEW_START);
+
+        card.addView(tvTitle);
+        card.addView(tvDate);
         eventListContainer.addView(card);
+    }
+
+    private void navigateToLanding() {
+        Intent intent = new Intent(this, LandingActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
+    }
+
+    private int dpToPx(int dp) {
+        return Math.round(dp * getResources().getDisplayMetrics().density);
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        fetchEvents();
-    }
-
-    private void fetchEvents() {
-        if (currentUser == null) {
-            Log.e(TAG, "User missing while fetching events");
-            return;
-        }
-        firestore.collection("users").document(currentUser.getUid()).collection("events")
-                .orderBy("eventDateMillis")
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    eventListContainer.removeAllViews();
-                    for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
-                        String title = doc.getString("title");
-                        String date = doc.getString("date");
-                        Long eventDateMillis = doc.getLong("eventDateMillis");
-                        addEventCard(title == null ? "Untitled event" : title,
-                                date == null && eventDateMillis != null ? formatDate(eventDateMillis) : date);
-                    }
-                })
-                .addOnFailureListener(e -> Log.e(TAG, "Event fetch failed", e));
-    }
-
-    private void addEventCard(String title, String date) {
-        LinearLayout card = new LinearLayout(this);
-        card.setLayoutParams(new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        ((LinearLayout.LayoutParams) card.getLayoutParams()).setMargins(0, 10, 0, 0);
-        card.setPadding(16, 16, 16, 16);
-        card.setBackgroundResource(R.drawable.card_blue);
-
-        TextView textView = new TextView(this);
-        textView.setText(title + "\n" + (date == null ? "" : date));
-        card.addView(textView);
-        eventListContainer.addView(card);
-    }
-
-    private String formatDate(long millis) {
-        return new SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(new Date(millis));
+    protected void onDestroy() {
+        super.onDestroy();
+        if (listener != null) listener.remove();
     }
 }

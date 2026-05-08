@@ -41,19 +41,6 @@ public class SetupProfileActivity extends AppCompatActivity {
         // NEXT
         btnNext.setOnClickListener(v -> {
 
-            Toast.makeText(
-                    this,
-                    "Next Step",
-                    Toast.LENGTH_SHORT
-            ).show();
-
-            // Example:
-            // startActivity(new Intent(this, NextActivity.class));
-        });
-
-        // BACK
-        btnNext.setOnClickListener(v -> {
-
             Intent intent = new Intent(
                     SetupProfileActivity.this,
                     SetupProfile2Activity.class
@@ -61,6 +48,9 @@ public class SetupProfileActivity extends AppCompatActivity {
 
             startActivity(intent);
         });
+
+        // BACK
+        btnBack.setOnClickListener(v -> navigateToLanding());
     }
 
     private void addSubject() {
@@ -105,5 +95,12 @@ public class SetupProfileActivity extends AppCompatActivity {
         subjectsContainer.addView(tv);
 
         etSubject.setText("");
+    }
+
+    private void navigateToLanding() {
+        Intent intent = new Intent(this, LandingActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
     }
 }

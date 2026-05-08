@@ -60,12 +60,14 @@
                     android:layout_marginStart="12dp">
 
                     <TextView
+                        android:id="@+id/tvProfileName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Alex Johnson"
                         android:textStyle="bold"/>
 
                     <TextView
+                        android:id="@+id/tvProfileEmail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="alex.johnson@email.com"
