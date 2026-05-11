@@ -212,7 +212,7 @@
 
     </LinearLayout>
 
-    <!-- 🔥 FIXED BOTTOM -->
+    <!--BOTTOM -->
     <LinearLayout
         android:id="@+id/bottomFixed"
         android:layout_width="0dp"

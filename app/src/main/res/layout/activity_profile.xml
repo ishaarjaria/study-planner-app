@@ -189,7 +189,7 @@
                     android:gravity="center_vertical">
 
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:orientation="vertical">
@@ -198,21 +198,15 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Daily Study Goal"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="4 hours per day"
-                            android:textSize="12sp"
-                            android:textColor="#777"/>
+                            android:textColor="#777"
+                            android:textSize="12sp" />
                     </LinearLayout>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="›"
-                        android:textSize="18sp"/>
                 </LinearLayout>
 
                 <!-- Divider -->
@@ -248,15 +242,7 @@
                             android:textSize="12sp"
                             android:textColor="#777"/>
                     </LinearLayout>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="›"
-                        android:textSize="18sp"/>
                 </LinearLayout>
-
-
 
             </LinearLayout>
 
